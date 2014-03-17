@@ -11,7 +11,8 @@
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    db = DAL('mysql://clminer:cloudminer2014@localhost/Cloudminer', pool_size=1, check_reserved=['mysql'], lazy_tables=True)
+    #db = DAL('mysql://clminer:cloudminer2014@localhost/Cloudminer', pool_size=1, check_reserved=['mysql'], lazy_tables=True)
+    db = DAL('mysql://root:root@localhost/cloudminer', pool_size=1, check_reserved=['mysql'], lazy_tables=True)
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore')
@@ -45,7 +46,7 @@ auth = Auth(db)
 crud, service, plugins = Crud(db), Service(), PluginManager()
 
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False)
+auth.define_tables()#username=False, signature=False)
 
 ## configure email
 mail = auth.settings.mailer
@@ -54,14 +55,14 @@ mail.settings.sender = 'you@gmail.com'
 mail.settings.login = 'username:password'
 
 ## configure auth policy
-auth.settings.registration_requires_verification = False
-auth.settings.registration_requires_approval = False
-auth.settings.reset_password_requires_verification = True
+#auth.settings.registration_requires_verification = False
+#auth.settings.registration_requires_approval = False
+#auth.settings.reset_password_requires_verification = True
 
 ## if you need to use OpenID, Facebook, MySpace, Twitter, Linkedin, etc.
 ## register with janrain.com, write your domain:api_key in private/janrain.key
-from gluon.contrib.login_methods.rpx_account import use_janrain
-use_janrain(auth, filename='private/janrain.key')
+#from gluon.contrib.login_methods.rpx_account import use_janrain
+#use_janrain(auth, filename='private/janrain.key')
 
 #########################################################################
 ## Define your tables below (or better in another model file) for example
@@ -91,14 +92,14 @@ db.define_table('miner',
                 Field('name', 'string', length=150, required=True),
                 Field('version', 'string', length=50, required=True),
                 Field('platform_id', 'reference platform'),
-                format = '%(names)s')
+                format = '%(name)s')
 
 db.define_table('machine',
-                Field('name', 'string', length=150, required=True),                
+                Field('name', 'string', length=150, required=True),
                 Field('ip',   'string', length=15, required=True),
                 Field('port', 'string', length=5, required=True),
                 Field('platform_id', 'reference platform'),
-                format = '%(names)s')
+                format = '%(name)s')
 
 db.define_table('worker',
                 Field('machine_id', 'reference machine'),

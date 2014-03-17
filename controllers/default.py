@@ -74,3 +74,15 @@ def data():
       LOAD('default','data.load',args='tables',ajax=True,user_signature=True)
     """
     return dict(form=crud())
+
+@auth.requires_login()
+def manage():
+    table = request.args(0)
+    if not table in db.tables():
+        redirect(URL('error'))
+    grid = SQLFORM.grid(db[table], args=request.args[:1])
+    return locals()
+
+#def manage():
+#    grid = SQLFORM.smartgrid(db.machine, linked_tables=['platform'])
+#    return dict(grid=grid)

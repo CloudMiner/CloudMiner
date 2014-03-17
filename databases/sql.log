@@ -1,4 +1,14 @@
-timestamp: 2014-03-23T19:46:45.486721
+timestamp: 2014-03-17T23:33:30.036721
+CREATE TABLE platform(
+    id INT AUTO_INCREMENT NOT NULL,
+    os VARCHAR(50),
+    type VARCHAR(50),
+    arch VARCHAR(10),
+    version VARCHAR(50),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2014-03-17T23:33:57.993019
 CREATE TABLE auth_user(
     id INT AUTO_INCREMENT NOT NULL,
     first_name VARCHAR(128),
@@ -11,7 +21,7 @@ CREATE TABLE auth_user(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-03-23T19:46:45.665584
+timestamp: 2014-03-17T23:33:58.030753
 CREATE TABLE auth_group(
     id INT AUTO_INCREMENT NOT NULL,
     role VARCHAR(512),
@@ -19,7 +29,7 @@ CREATE TABLE auth_group(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-03-23T19:46:45.723563
+timestamp: 2014-03-17T23:33:58.052317
 CREATE TABLE auth_membership(
     id INT AUTO_INCREMENT NOT NULL,
     user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -27,7 +37,7 @@ CREATE TABLE auth_membership(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-03-23T19:46:45.796960
+timestamp: 2014-03-17T23:33:58.170231
 CREATE TABLE auth_permission(
     id INT AUTO_INCREMENT NOT NULL,
     group_id INT, INDEX group_id__idx (group_id), FOREIGN KEY (group_id) REFERENCES auth_group (id) ON DELETE CASCADE,
@@ -37,7 +47,7 @@ CREATE TABLE auth_permission(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-03-23T19:46:45.855807
+timestamp: 2014-03-17T23:33:58.198580
 CREATE TABLE auth_event(
     id INT AUTO_INCREMENT NOT NULL,
     time_stamp DATETIME,
@@ -48,7 +58,7 @@ CREATE TABLE auth_event(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-03-23T19:46:45.913413
+timestamp: 2014-03-17T23:33:58.232207
 CREATE TABLE auth_cas(
     id INT AUTO_INCREMENT NOT NULL,
     user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -59,17 +69,7 @@ CREATE TABLE auth_cas(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-03-23T19:46:45.971282
-CREATE TABLE platform(
-    id INT AUTO_INCREMENT NOT NULL,
-    os VARCHAR(50),
-    type VARCHAR(50),
-    arch VARCHAR(10),
-    version VARCHAR(50),
-    PRIMARY KEY (id)
-) ENGINE=InnoDB CHARACTER SET utf8;
-success!
-timestamp: 2014-03-23T19:46:46.029926
+timestamp: 2014-03-17T23:33:58.311540
 CREATE TABLE miner(
     id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(150),
@@ -78,7 +78,7 @@ CREATE TABLE miner(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-03-23T19:46:46.087746
+timestamp: 2014-03-17T23:33:58.334872
 CREATE TABLE machine(
     id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(150),
@@ -88,7 +88,7 @@ CREATE TABLE machine(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-03-23T19:46:46.146384
+timestamp: 2014-03-17T23:33:58.359294
 CREATE TABLE worker(
     id INT AUTO_INCREMENT NOT NULL,
     machine_id INT, INDEX machine_id__idx (machine_id), FOREIGN KEY (machine_id) REFERENCES machine (id) ON DELETE CASCADE,
@@ -98,7 +98,7 @@ CREATE TABLE worker(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-03-23T19:46:46.219257
+timestamp: 2014-03-17T23:33:58.383185
 CREATE TABLE worker_stats(
     id INT AUTO_INCREMENT NOT NULL,
     worker_id INT, INDEX worker_id__idx (worker_id), FOREIGN KEY (worker_id) REFERENCES worker (id) ON DELETE CASCADE,

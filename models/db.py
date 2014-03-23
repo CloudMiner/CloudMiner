@@ -12,7 +12,7 @@
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
     #db = DAL('mysql://clminer:cloudminer2014@localhost/Cloudminer', pool_size=1, check_reserved=['mysql'], lazy_tables=True)
-    db = DAL('mysql://root:root@localhost/cloudminer', pool_size=1, check_reserved=['mysql'], lazy_tables=True)
+    db = DAL('mysql://clminer:cloudminer2014@localhost/cloudminer', pool_size=1, check_reserved=['mysql'], lazy_tables=True)
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore')

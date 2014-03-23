@@ -1,5 +1,5 @@
 (dp1
-S'tstamp'
+S'timestamp'
 p2
 (dp3
 S'length'
@@ -10,10 +10,10 @@ p5
 I00
 sS'sortable'
 p6
-I5
+I4
 sS'sql'
 p7
-S'TIMESTAMP'
+S'DATETIME'
 p8
 sS'notnull'
 p9
@@ -32,7 +32,7 @@ I00
 sg6
 I2
 sg7
-S'INTEGER REFERENCES worker (id) ON DELETE CASCADE'
+S'INT, INDEX worker_id__idx (worker_id), FOREIGN KEY (worker_id) REFERENCES worker (id) ON DELETE CASCADE'
 p14
 sg9
 I00
@@ -47,9 +47,9 @@ I512
 sg5
 I00
 sg6
-I4
+I3
 sg7
-S'INTEGER'
+S'INT'
 p18
 sg9
 I00
@@ -66,26 +66,10 @@ I00
 sg6
 I1
 sg7
-S'INTEGER PRIMARY KEY AUTOINCREMENT'
+S'INT AUTO_INCREMENT NOT NULL'
 p22
 sg9
 I00
 sg10
 g20
-ssS'id_miner'
-p23
-(dp24
-g4
-I512
-sg5
-I00
-sg6
-I3
-sg7
-S'INTEGER'
-p25
-sg9
-I00
-sg10
-g19
 ss.

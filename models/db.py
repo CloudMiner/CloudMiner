@@ -11,7 +11,7 @@
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    db = DAL('sqlite://storage.sqlite',pool_size=1,check_reserved=['all'])
+    db = DAL('mysql://clminer:cloudminer2014@localhost/Cloudminer', pool_size=1, check_reserved=['mysql'], lazy_tables=True)
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore')
@@ -80,40 +80,39 @@ use_janrain(auth, filename='private/janrain.key')
 ## >>> for row in rows: print row.id, row.myfield
 #########################################################################
 
-##db.define_table('platform',
-##                Field('OS', length=50, required=True),
-##                Field('version', length=50, required=True),
-##                format = '%(OS)s %(version)s')
+db.define_table('platform',
+                Field('os',   'string', length=50, required=True),
+                Field('type', 'string', length=50, required=True),
+                Field('arch', 'string', length=10, required=True),
+                Field('version', 'string', length=50, required=False, default='unknown'),
+                format = '%(os)s %(type)s %(arch)s %(version)s')
 
-##db.define_table('machine',
-##                Field('name', length=50, required=True),
-##                Field('platform_id', ),
-##                Field('architecture', length=10, required=True),
+db.define_table('miner',
+                Field('name', 'string', length=150, required=True),
+                Field('version', 'string', length=50, required=True),
+                Field('platform_id', 'reference platform'),
+                format = '%(names)s')
 
+db.define_table('machine',
+                Field('name', 'string', length=150, required=True),                
+                Field('ip',   'string', length=15, required=True),
+                Field('port', 'string', length=5, required=True),
+                Field('platform_id', 'reference platform'),
+                format = '%(names)s')
 
 db.define_table('worker',
-                Field('platform', length=50, required=True),
-                Field('architecture', length=10, required=True),
-                Field('start_tsamp', 'datetime'),
-                Field('IP', length=15, required=True, unique=True),
+                Field('machine_id', 'reference machine'),
+                Field('miner_id',   'reference miner'),
+                Field('time_start', 'datetime', required=True),
+                Field('time_stop',  'datetime', required=True),
                 format = 'worker %(id)s')
 
 db.define_table('worker_stats',
                 Field('worker_id', 'reference worker'),
-                Field('id_miner', 'integer', required=True),
-                Field('hash_rate', 'integer', required=True),
-                Field('tstamp', 'datetime'),
-                format = '%(worker_id)s %(tstamp)s')
+                Field('hash_rate', 'integer',  required=True),
+                Field('timestamp', 'datetime', required=True),
+                format = '%(worker_id)s %(timestamp)s')
 
-db.worker.platform.requires = IS_NOT_IN_DB(db, db.worker.platform)
-db.worker.architecture.requires = IS_NOT_EMPTY()
-db.worker.IP.requires = IS_NOT_EMPTY()
-db.worker.IP.requires = IS_NOT_IN_DB(db, db.worker.IP)
-db.worker_stats.worker_id.requires = IS_IN_DB(db, db.worker.id, 'worker %(id)s')
-db.worker_stats.id_miner.requires = IS_NOT_EMPTY()
-db.worker_stats.hash_rate.requires = IS_NOT_EMPTY()
-
-db.worker_stats.worker_id.writable = db.worker_stats.worker_id.readable = False
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)

@@ -12,7 +12,7 @@
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
     #db = DAL('mysql://clminer:cloudminer2014@localhost/Cloudminer', pool_size=1, check_reserved=['mysql'], lazy_tables=True)
-    db = DAL('mysql://root:root@localhost/cloudminer', pool_size=1, check_reserved=['mysql'], lazy_tables=True)
+    db = DAL('mysql://clminer:cloudminer2014@localhost/cloudminer', pool_size=1, check_reserved=['mysql'], lazy_tables=True)
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore')
@@ -55,9 +55,9 @@ mail.settings.sender = 'you@gmail.com'
 mail.settings.login = 'username:password'
 
 ## configure auth policy
-auth.settings.registration_requires_verification = False
-auth.settings.registration_requires_approval = False
-auth.settings.reset_password_requires_verification = True
+#auth.settings.registration_requires_verification = False
+#auth.settings.registration_requires_approval = False
+#auth.settings.reset_password_requires_verification = True
 
 ## if you need to use OpenID, Facebook, MySpace, Twitter, Linkedin, etc.
 ## register with janrain.com, write your domain:api_key in private/janrain.key
@@ -81,6 +81,18 @@ auth.settings.reset_password_requires_verification = True
 ## >>> for row in rows: print row.id, row.myfield
 #########################################################################
 
+db.define_table('pool',
+                Field('name', 'string', required=True),
+                Field('webpage', 'string'),
+                Field('account_email', 'string'),
+                Field('account_ID', 'string'),
+                format = '%(name)s')
+
+db.define_table('currency',
+                Field('name', 'string', length=100),
+                Field('name_short', 'string', length=3, required=True, unique=True),
+                format = '%(name_short)s')
+
 db.define_table('platform',
                 Field('os',   'string', length=50, required=True),
                 Field('type', 'string', length=50, required=True),
@@ -92,12 +104,16 @@ db.define_table('miner',
                 Field('name', 'string', length=150, required=True),
                 Field('version', 'string', length=50, required=True),
                 Field('platform_id', 'reference platform'),
-                format = '%(name)s')
+                Field('currency_id', 'reference currency'),
+                #Field('pool_id', 'reference pool'),
+                Field('command_line', length=300, required=True),
+                format = '%(name)s v%(version)s for %(platform_id)s')
 
 db.define_table('machine',
                 Field('name', 'string', length=150, required=True),
                 Field('ip',   'string', length=15, required=True),
                 Field('port', 'string', length=5, required=True),
+                Field('alive', 'boolean', required=True),
                 Field('platform_id', 'reference platform'),
                 format = '%(name)s')
 

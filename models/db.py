@@ -81,6 +81,18 @@ mail.settings.login = 'username:password'
 ## >>> for row in rows: print row.id, row.myfield
 #########################################################################
 
+db.define_table('pool',
+                Field('name', 'string', required=True),
+                Field('webpage', 'string'),
+                Field('account_email', 'string'),
+                Field('account_ID', 'string'),
+                format = '%(name)s')
+
+db.define_table('currency',
+                Field('name', 'string', length=100),
+                Field('name_short', 'string', length=3, required=True, unique=True),
+                format = '%(name_short)s')
+
 db.define_table('platform',
                 Field('os',   'string', length=50, required=True),
                 Field('type', 'string', length=50, required=True),
@@ -92,12 +104,16 @@ db.define_table('miner',
                 Field('name', 'string', length=150, required=True),
                 Field('version', 'string', length=50, required=True),
                 Field('platform_id', 'reference platform'),
-                format = '%(name)s')
+                Field('currency_id', 'reference currency'),
+                #Field('pool_id', 'reference pool'),
+                Field('command_line', length=300, required=True),
+                format = '%(name)s v%(version)s for %(platform_id)s')
 
 db.define_table('machine',
                 Field('name', 'string', length=150, required=True),
                 Field('ip',   'string', length=15, required=True),
                 Field('port', 'string', length=5, required=True),
+                Field('alive', 'boolean', required=True),
                 Field('platform_id', 'reference platform'),
                 format = '%(name)s')
 
@@ -110,7 +126,7 @@ db.define_table('worker',
 
 db.define_table('worker_stats',
                 Field('worker_id', 'reference worker'),
-                Field('hash_rate', 'integer',  required=True),
+                Field('hash_rate', 'double',  required=True),
                 Field('timestamp', 'datetime', required=True),
                 format = '%(worker_id)s %(timestamp)s')
 

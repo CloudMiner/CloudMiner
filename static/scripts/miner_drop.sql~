@@ -1,0 +1,1 @@
+USE cloudminer; SELECT * FROM TABLE miner;

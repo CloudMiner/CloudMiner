@@ -311,6 +311,7 @@
 'Platform Id': 'Platform Id',
 'please input your password again': 'por favor introduzca su contraseña otra vez',
 'Plugins': 'Plugins',
+'Pool Id': 'Pool Id',
 'Port': 'Port',
 'Powered by': 'Este sitio usa',
 'Preface': 'Prefacio',

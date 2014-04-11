@@ -9,6 +9,15 @@
 ## - call exposes all registered services (none by default)
 #########################################################################
 
+import asyncore
+from TaskMaster import TaskMaster
+#import HeadNode
+from time import sleep
+import logging
+import pymysql
+import random
+import re
+import sys
 
 def index():
     """
@@ -86,3 +95,16 @@ def manage():
 #def manage():
 #    grid = SQLFORM.smartgrid(db.machine, linked_tables=['platform'])
 #    return dict(grid=grid)
+
+def send_task():
+    #print 'inicializa el TaskMaster'
+    #connector = TaskMaster(addr)
+    connector = TaskMaster(('127.0.0.1',58042))
+    #print 'TaskMaster manda el comando: ' + str(task)
+    connector.send_command('test 1')
+    asyncore.loop()
+    #print 'CALLBACK:' + 
+    connector.get_callback()
+
+def machine_dash():
+    pass

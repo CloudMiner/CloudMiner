@@ -5,9 +5,12 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(B('web',SPAN(2),'py'),XML('&trade;&nbsp;'),
+#B('web',SPAN(2),'py')
+XML('&trade;&nbsp;'),
+response.logo = A(IMG(_src=URL('static','images/CloudMiner_text2.png'),_style="height:30px;width:170px",_alt="CLOUDMINER LOGO!"),
                   _class="brand",_href="http://www.web2py.com/")
-response.title = request.application.replace('_',' ').title()
+response.title = ''
+    #request.application.replace('_',' ').title()
 response.subtitle = ''
 
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
@@ -136,4 +139,4 @@ def _():
          )]
 if DEVELOPMENT_MENU: _()
 
-if "auth" in locals(): auth.wikimenu() 
+if "auth" in locals(): auth.wikimenu()

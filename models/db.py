@@ -98,16 +98,16 @@ db.define_table('platform',
                 Field('type', 'string', length=50, required=True),
                 Field('arch', 'string', length=10, required=True),
                 Field('version', 'string', length=50, required=False, default='unknown'),
-                format = '%(os)s %(type)s %(arch)s %(version)s')
+                format = '%(os)s - %(type)s - %(arch)s - v%(version)s')
 
 db.define_table('miner',
                 Field('name', 'string', length=150, required=True),
                 Field('version', 'string', length=50, required=True),
                 Field('platform_id', 'reference platform'),
                 Field('currency_id', 'reference currency'),
-                #Field('pool_id', 'reference pool'),
+                Field('pool_id', 'reference pool'),
                 Field('command_line', length=300, required=True),
-                format = '%(name)s v%(version)s for %(platform_id)s')
+                format = '%(name)s v%(version)s')
 
 db.define_table('machine',
                 Field('name', 'string', length=150, required=True),

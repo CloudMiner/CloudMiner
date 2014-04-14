@@ -98,7 +98,7 @@ db.define_table('platform',
                 Field('type', 'string', length=50, required=True),
                 Field('arch', 'string', length=10, required=True),
                 Field('version', 'string', length=50, required=False, default='unknown'),
-                format = '%(os)s %(type)s %(arch)s %(version)s')
+                format = '%(os)s - %(type)s - %(arch)s - v%(version)s')
 
 db.define_table('miner',
                 Field('name', 'string', length=150, required=True),
@@ -107,7 +107,7 @@ db.define_table('miner',
                 Field('currency_id', 'reference currency'),
                 #Field('pool_id', 'reference pool'),
                 Field('command_line', length=300, required=True),
-                format = '%(name)s v%(version)s for %(platform_id)s')
+                format = '%(name)s v%(version)s')
 
 db.define_table('machine',
                 Field('name', 'string', length=150, required=True),
@@ -126,7 +126,7 @@ db.define_table('worker',
 
 db.define_table('worker_stats',
                 Field('worker_id', 'reference worker'),
-                Field('hash_rate', 'integer',  required=True),
+                Field('hash_rate', 'double',  required=True),
                 Field('timestamp', 'datetime', required=True),
                 format = '%(worker_id)s %(timestamp)s')
 

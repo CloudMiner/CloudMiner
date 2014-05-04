@@ -1,4 +1,4 @@
-timestamp: 2014-04-11T15:35:42.040071
+timestamp: 2014-05-04T21:29:51.263814
 CREATE TABLE auth_user(
     id INT AUTO_INCREMENT NOT NULL,
     first_name VARCHAR(128),
@@ -11,7 +11,7 @@ CREATE TABLE auth_user(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.064102
+timestamp: 2014-05-04T21:29:51.290591
 CREATE TABLE auth_group(
     id INT AUTO_INCREMENT NOT NULL,
     role VARCHAR(512),
@@ -19,7 +19,7 @@ CREATE TABLE auth_group(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.094551
+timestamp: 2014-05-04T21:29:51.326767
 CREATE TABLE auth_membership(
     id INT AUTO_INCREMENT NOT NULL,
     user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -27,7 +27,7 @@ CREATE TABLE auth_membership(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.146580
+timestamp: 2014-05-04T21:29:51.350069
 CREATE TABLE auth_permission(
     id INT AUTO_INCREMENT NOT NULL,
     group_id INT, INDEX group_id__idx (group_id), FOREIGN KEY (group_id) REFERENCES auth_group (id) ON DELETE CASCADE,
@@ -37,7 +37,7 @@ CREATE TABLE auth_permission(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.168981
+timestamp: 2014-05-04T21:29:51.371922
 CREATE TABLE auth_event(
     id INT AUTO_INCREMENT NOT NULL,
     time_stamp DATETIME,
@@ -48,7 +48,7 @@ CREATE TABLE auth_event(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.191768
+timestamp: 2014-05-04T21:29:51.407544
 CREATE TABLE auth_cas(
     id INT AUTO_INCREMENT NOT NULL,
     user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user (id) ON DELETE CASCADE,
@@ -59,35 +59,34 @@ CREATE TABLE auth_cas(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.211425
+timestamp: 2014-05-04T21:29:51.437633
 CREATE TABLE pool(
     id INT AUTO_INCREMENT NOT NULL,
-    name VARCHAR(512),
-    webpage VARCHAR(512),
-    account_email VARCHAR(512),
-    account_ID VARCHAR(512),
+    name VARCHAR(100) NOT NULL UNIQUE,
+    webpage VARCHAR(255),
+    account_email VARCHAR(255),
+    account_ID VARCHAR(100),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.248810
+timestamp: 2014-05-04T21:29:51.458536
 CREATE TABLE currency(
     id INT AUTO_INCREMENT NOT NULL,
-    name VARCHAR(100),
-    name_short VARCHAR(3) UNIQUE,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    name_short VARCHAR(3) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.272122
+timestamp: 2014-05-04T21:29:51.479835
 CREATE TABLE platform(
     id INT AUTO_INCREMENT NOT NULL,
-    os VARCHAR(50),
-    type VARCHAR(50),
-    arch VARCHAR(10),
-    version VARCHAR(50),
+    os VARCHAR(50) NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    arch VARCHAR(10) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.295017
+timestamp: 2014-05-04T21:29:51.506175
 CREATE TABLE miner(
     id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(150),
@@ -95,36 +94,38 @@ CREATE TABLE miner(
     platform_id INT, INDEX platform_id__idx (platform_id), FOREIGN KEY (platform_id) REFERENCES platform (id) ON DELETE CASCADE,
     currency_id INT, INDEX currency_id__idx (currency_id), FOREIGN KEY (currency_id) REFERENCES currency (id) ON DELETE CASCADE,
     pool_id INT, INDEX pool_id__idx (pool_id), FOREIGN KEY (pool_id) REFERENCES pool (id) ON DELETE CASCADE,
-    command_line VARCHAR(300),
+    command_line VARCHAR(300) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.322369
+timestamp: 2014-05-04T21:29:51.535306
 CREATE TABLE machine(
     id INT AUTO_INCREMENT NOT NULL,
-    name VARCHAR(150),
-    ip VARCHAR(15),
-    port VARCHAR(5),
-    alive CHAR(1),
+    name VARCHAR(150) NOT NULL,
+    ip VARCHAR(15) NOT NULL,
+    port VARCHAR(5) NOT NULL,
+    alive CHAR(1) NOT NULL,
     platform_id INT, INDEX platform_id__idx (platform_id), FOREIGN KEY (platform_id) REFERENCES platform (id) ON DELETE CASCADE,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.343490
+timestamp: 2014-05-04T21:29:51.563302
 CREATE TABLE worker(
     id INT AUTO_INCREMENT NOT NULL,
     machine_id INT, INDEX machine_id__idx (machine_id), FOREIGN KEY (machine_id) REFERENCES machine (id) ON DELETE CASCADE,
     miner_id INT, INDEX miner_id__idx (miner_id), FOREIGN KEY (miner_id) REFERENCES miner (id) ON DELETE CASCADE,
-    time_start DATETIME,
-    time_stop DATETIME,
+    time_start DATETIME NOT NULL,
+    time_stop DATETIME NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
-timestamp: 2014-04-11T15:35:42.386700
+timestamp: 2014-05-04T21:29:51.598333
 CREATE TABLE worker_stats(
     id INT AUTO_INCREMENT NOT NULL,
     worker_id INT, INDEX worker_id__idx (worker_id), FOREIGN KEY (worker_id) REFERENCES worker (id) ON DELETE CASCADE,
-    hash_rate DOUBLE,
+    hash_rate DOUBLE NOT NULL DEFAULT 0.0,
+    hash_avg DOUBLE NOT NULL DEFAULT 0.0,
+    hash_count INT NOT NULL DEFAULT 0,
     timestamp DATETIME,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;

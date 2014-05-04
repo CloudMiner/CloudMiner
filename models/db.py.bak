@@ -82,14 +82,14 @@ mail.settings.login = 'username:password'
 #########################################################################
 
 db.define_table('pool',
-                Field('name', 'string', required=True),
-                Field('webpage', 'string'),
-                Field('account_email', 'string'),
-                Field('account_ID', 'string'),
+                Field('name', 'string', length=100, required=True, unique=True),
+                Field('webpage', 'string', length=255),
+                Field('account_email', 'string', length=255),
+                Field('account_ID', 'string', length=100),
                 format = '%(name)s')
 
 db.define_table('currency',
-                Field('name', 'string', length=100),
+                Field('name', 'string', length=100, required=True, unique=True),
                 Field('name_short', 'string', length=3, required=True, unique=True),
                 format = '%(name_short)s')
 
@@ -97,15 +97,15 @@ db.define_table('platform',
                 Field('os',   'string', length=50, required=True),
                 Field('type', 'string', length=50, required=True),
                 Field('arch', 'string', length=10, required=True),
-                Field('version', 'string', length=50, required=False, default='unknown'),
-                format = '%(os)s - %(type)s - %(arch)s - v%(version)s')
+                #Field('version', 'string', length=50, required=False, default='unknown'),
+                format = '%(os)s - %(type)s - %(arch)s')# - v%(version)s')
 
 db.define_table('miner',
                 Field('name', 'string', length=150, required=True),
                 Field('version', 'string', length=50, required=True),
                 Field('platform_id', 'reference platform'),
                 Field('currency_id', 'reference currency'),
-                #Field('pool_id', 'reference pool'),
+                Field('pool_id', 'reference pool'),
                 Field('command_line', length=300, required=True),
                 format = '%(name)s v%(version)s')
 
@@ -126,7 +126,9 @@ db.define_table('worker',
 
 db.define_table('worker_stats',
                 Field('worker_id', 'reference worker'),
-                Field('hash_rate', 'double',  required=True),
+                Field('hash_rate', 'double',  required=True),# default=0.0),
+                #Field('hash_avg', 'double',  required=True, notnull=True, default=0.0),
+                #Field('hash_count', 'integer', required=True, notnull=True, default=0),
                 Field('timestamp', 'datetime', required=True),
                 format = '%(worker_id)s %(timestamp)s')
 

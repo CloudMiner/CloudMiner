@@ -1,0 +1,36 @@
+{{extend 'layout.html'}}
+<body style="background:#80BFFF">
+<h2>::WORKERS ACTIVOS::</h2>
+<hr>
+<center>
+
+{{from datetime import *}}
+{{now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')}}
+<h4>
+<table border="2">
+<TR><TD WIDTH=150> <h3>MACHINE ID </h3></TD> <TD WIDTH=150> <h3> MINER ID </h3></TD> <TD WIDTH=300> <h3>TIME START</h3></TD> <TD WIDTH=150> <h3>TIME STOP</h3></TD>    
+
+    {{for worker in workers_on:}}
+        {{time_on = worker.time_start}}    
+        {{time_off = worker.time_stop}}    
+        {{if (time_on < now and now < time_off ):}} 
+            <TR>
+            <TD WIDTH=150>
+                {{=worker.machine_id}}
+            </TD>
+            <TD WIDTH=150>
+                {{=worker.miner_id}}
+            </TD>
+            <TD WIDTH=300>
+                {{=worker.time_start}}
+            </TD>
+            <TD WIDTH=300>
+                {{=worker.time_stop}}
+            </TD>
+            </TR>
+        {{pass}}  
+    {{pass}}
+</h4>
+</table>    
+</center>
+</body>

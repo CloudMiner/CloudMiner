@@ -1,5 +1,5 @@
 {{extend 'layout.html'}}
 <h2>
-    {{=table}} management interface
+    {{=table.upper()}} management interfaceSS
 </h2>
 {{=grid}}

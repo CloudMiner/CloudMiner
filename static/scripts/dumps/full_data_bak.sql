@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: cloudminer
 -- ------------------------------------------------------
--- Server version	5.5.35-0ubuntu0.12.04.2
+-- Server version	5.5.35-0+wheezy1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,7 +30,7 @@ UNLOCK TABLES;
 
 LOCK TABLES auth_event WRITE;
 /*!40000 ALTER TABLE auth_event DISABLE KEYS */;
-INSERT INTO auth_event (id, time_stamp, client_ip, user_id, origin, description) VALUES (1,'2014-03-27 20:41:51','127.0.0.1',NULL,'auth','Group 1 created'),(2,'2014-03-27 20:41:51','127.0.0.1',1,'auth','User 1 Registered'),(3,'2014-03-27 22:45:36','127.0.0.1',1,'auth','User 1 Logged-in');
+INSERT INTO auth_event (id, time_stamp, client_ip, user_id, origin, description) VALUES (1,'2014-03-28 15:36:11','127.0.0.1',NULL,'auth','Group 1 created'),(2,'2014-03-28 15:36:11','127.0.0.1',1,'auth','User 1 Registered'),(3,'2014-03-28 15:36:34','127.0.0.1',1,'auth','User 1 Profile updated'),(4,'2014-03-28 15:37:31','127.0.0.1',1,'auth','User 1 Logged-out'),(5,'2014-03-28 15:38:04','127.0.0.1',NULL,'auth','Group 2 created'),(6,'2014-03-28 15:38:04','127.0.0.1',2,'auth','User 2 Registered');
 /*!40000 ALTER TABLE auth_event ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -40,7 +40,7 @@ UNLOCK TABLES;
 
 LOCK TABLES auth_group WRITE;
 /*!40000 ALTER TABLE auth_group DISABLE KEYS */;
-INSERT INTO auth_group (id, role, description) VALUES (1,'user_1','Grupo asignado únicamente al usuario 1');
+INSERT INTO auth_group (id, role, description) VALUES (1,'user_1','Grupo asignado únicamente al usuario 1'),(2,'user_2','Grupo asignado únicamente al usuario 2');
 /*!40000 ALTER TABLE auth_group ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,7 +50,7 @@ UNLOCK TABLES;
 
 LOCK TABLES auth_membership WRITE;
 /*!40000 ALTER TABLE auth_membership DISABLE KEYS */;
-INSERT INTO auth_membership (id, user_id, group_id) VALUES (1,1,1);
+INSERT INTO auth_membership (id, user_id, group_id) VALUES (1,1,1),(2,2,2);
 /*!40000 ALTER TABLE auth_membership ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,18 +69,8 @@ UNLOCK TABLES;
 
 LOCK TABLES auth_user WRITE;
 /*!40000 ALTER TABLE auth_user DISABLE KEYS */;
-INSERT INTO auth_user (id, first_name, last_name, email, password, registration_key, reset_password_key, registration_id) VALUES (1,'Tomás','Restrepo','tomas@tomas.com','pbkdf2(1000,20,sha512)$aebb22315f01cfa8$8457bf0590788f65ad0568f09a13f57ece77f852','','','');
+INSERT INTO auth_user (id, first_name, last_name, email, password, registration_key, reset_password_key, registration_id) VALUES (1,'Juan','Arratia M','juan@arratia.com','pbkdf2(1000,20,sha512)$bedd26e1f098ab7b$1e68f0845bb79f5e085d2acb778fa18bb7e62410','','',''),(2,'tomas','restrepo','tomas@tomas.com','pbkdf2(1000,20,sha512)$8c44dae31ba345fa$51800e663272d0a9b6b1ec72e37950bb79de382d','','','');
 /*!40000 ALTER TABLE auth_user ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `currency`
---
-
-LOCK TABLES currency WRITE;
-/*!40000 ALTER TABLE currency DISABLE KEYS */;
-INSERT INTO currency (id, name, name_short) VALUES (1,'BitCoin','BTC'),(2,'LiteCoin','LTC'),(3,'NovaCoin','NVC'),(4,'TerraCoin','TRC');
-/*!40000 ALTER TABLE currency ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -89,7 +79,7 @@ UNLOCK TABLES;
 
 LOCK TABLES machine WRITE;
 /*!40000 ALTER TABLE machine DISABLE KEYS */;
-INSERT INTO machine (id, name, ip, port, alive, platform_id) VALUES (1,'VM tomas','88.23.71.197','12345','F',1),(2,'tomas-virtual-machine','0.0.0.0','37940','F',1),(3,'test','111','111','F',1),(4,'Tom-PC','0.0.0.0','65332','F',2);
+INSERT INTO machine (id, name, ip, port, platform_id) VALUES (1,'juan-VM','1.1.1.1.1','111',1);
 /*!40000 ALTER TABLE machine ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,7 +89,6 @@ UNLOCK TABLES;
 
 LOCK TABLES miner WRITE;
 /*!40000 ALTER TABLE miner DISABLE KEYS */;
-INSERT INTO miner (id, name, version, platform_id, currency_id, pool_id, command_line) VALUES (1,'minerd','2.3.2',1,1,1,'../Miners/minerd_2.3.2_linux32/minerd -a sha256d --benchmark'),(2,'minerd','2.3.2',1,1,2,'../Miners/minerd_2.3.2_linux32/minerd -a sha256d -o stratum+tcp://stratum.bitcoin.cz:3333 -O cloudminer.worker1:9868UyAN'),(3,'minerd','2.3.2',1,2,3,'../Miners/minerd_2.3.2_linux32/minerd -a scrypt -o stratum+tcp://europe.mine-litecoin.com -O cloudminer.worker1:x'),(4,'minerd','2.3.2',2,1,1,'../Miners/minerd_2.3.2_win64/minerd.exe -a sha256d --benchmark'),(5,'minerd','2.3.2',2,1,2,'../Miners/minerd_2.3.2_win64/minerd.exe -a sha256d -o stratum+tcp://stratum.bitcoin.cz:3333 -O cloudminer.worker1:9868UyAN'),(6,'minerd','2.3.2',2,2,3,'../Miners/minerd_2.3.2_win64/minerd.exe -a scrypt -o stratum+tcp://europe.mine-litecoin.com -O cloudminer.worker1:x');
 /*!40000 ALTER TABLE miner ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,18 +98,8 @@ UNLOCK TABLES;
 
 LOCK TABLES platform WRITE;
 /*!40000 ALTER TABLE platform DISABLE KEYS */;
-INSERT INTO platform (id, os, type, arch, version) VALUES (1,'Linux','LinuxMint','32bit','13'),(2,'Windows','unique','64bit','8');
+INSERT INTO platform (id, os, type, arch, version) VALUES (1,'linux','mint','32bit','13.0');
 /*!40000 ALTER TABLE platform ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `pool`
---
-
-LOCK TABLES pool WRITE;
-/*!40000 ALTER TABLE pool DISABLE KEYS */;
-INSERT INTO pool (id, name, webpage, account_email, account_ID) VALUES (1,'benchmark','-','-','-'),(2,'Slush_s pool','http://mining.bitcoin.cz','cloudminer.ucm@gmail.com','cloudminer'),(3,'Mine-Litecoin','https://mine-litecoin.com','nilksermot@gmail.com','cloudminer'),(4,'BTC guild','https://www.btcguild.com','cloudminer.ucm@gmail.com','cloudminer');
-/*!40000 ALTER TABLE pool ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -129,7 +108,6 @@ UNLOCK TABLES;
 
 LOCK TABLES worker WRITE;
 /*!40000 ALTER TABLE worker DISABLE KEYS */;
-INSERT INTO worker (id, machine_id, miner_id, time_start, time_stop) VALUES (1,1,1,'2014-03-27 22:47:22','2014-03-30 13:44:00'),(2,2,1,'2014-03-30 13:35:47','2014-03-30 13:44:00'),(3,2,1,'2014-03-30 14:06:59','2014-03-30 14:16:11');
 /*!40000 ALTER TABLE worker ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +117,6 @@ UNLOCK TABLES;
 
 LOCK TABLES worker_stats WRITE;
 /*!40000 ALTER TABLE worker_stats DISABLE KEYS */;
-INSERT INTO worker_stats (id, worker_id, hash_rate, timestamp) VALUES (1,1,6,'2014-03-30 13:35:49'),(2,1,6,'2014-03-30 13:35:54'),(3,1,5,'2014-03-30 13:35:59'),(4,1,6,'2014-03-30 13:36:04'),(5,2,5,'2014-03-30 13:36:09'),(6,2,6,'2014-03-30 14:07:01'),(7,2,5,'2014-03-30 14:07:06'),(8,2,6,'2014-03-30 14:07:11');
 /*!40000 ALTER TABLE worker_stats ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -152,4 +129,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-11 15:34:50
+-- Dump completed on 2014-05-03 17:56:30

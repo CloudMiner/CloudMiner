@@ -1,0 +1,3 @@
+{{extend 'layout.html'}}
+<h1>Workers Activos</h1>
+{{=grid}}

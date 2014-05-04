@@ -87,7 +87,7 @@ def data():
 
 def workers_active():
     #workers = db().select(db.worker.ALL)
-    grid = SQLFORM.smartgrid(db.worker, create=False, editable=False, deletable=True)
+    grid = SQLFORM.smartgrid(db.worker, create=False, editable=False, deletable=False)
     return locals()
 
 def workers_on():

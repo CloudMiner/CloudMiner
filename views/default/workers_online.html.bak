@@ -1,0 +1,4 @@
+{{extend 'layout.html'}}
+<body style="background:#80BFFF">
+<h1>Workers ONLINE</h1>
+{{=grid}}

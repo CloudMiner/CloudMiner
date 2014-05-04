@@ -86,13 +86,8 @@ def data():
     return dict(form=crud())
 
 def workers_active():
-    #workers = db().select(db.worker.ALL)
-    grid = SQLFORM.smartgrid(db.worker, create=False, editable=False, deletable=True)
+    grid = SQLFORM.grid(db.worker)   
     return locals()
-
-def workers_on():
-    workers_on = db().select(db.worker.ALL)
-    return dict(workers_on=workers_on)
 
 @auth.requires_login()
 def manage():

@@ -1,0 +1,6 @@
+<!--{{=SQLTABLE(rows,headers={'machine.name' : 'Machine name','machine.ip' : 'IP', 'machine.port' : 'Port',
+                                 'machine.alive'    : 'Alive',
+                                 'machine.platform_id'    : 'Platform',
+                                 'worker.miner_id'        : 'Miner',
+                                 'worker.time_start'      : 'Started at',
+                                 'worker.time_stop'       : 'Stopped at'})}} -->

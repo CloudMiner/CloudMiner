@@ -130,7 +130,12 @@ def machine_dash():
 def machine_dash_2():
     mach_id = request.args(0)
     if(mach_id == None):
-        return dict(rows = db(db.machine).select(db.machine.name,
+        query = db.machine
+    else:
+        query = db.machine==mach_id
+        pass
+    return dict(rows = db(query).select(db.machine.id,
+                                        db.machine.name,
                                              db.machine.ip,
                                              db.machine.port,
                                              db.machine.alive,
@@ -139,30 +144,17 @@ def machine_dash_2():
                                              db.platform.arch,
                                              db.miner.name,
                                              db.miner.version,
+                                             db.worker.id,
                                              db.worker.time_start,
                                              db.worker.time_stop,
                                              #db.miner.timestamp.max(),
                                              left=[db.worker.on(db.machine.id==db.worker.machine_id),
                                                    db.platform.on(db.machine.platform_id==db.platform.id),
-                                                   db.miner.on(db.worker.miner_id==db.miner.id)]))
+                                                   db.miner.on(db.worker.miner_id==db.miner.id)],
+                                             orderby=db.machine.name | ~db.machine.alive))
+                                             #,distinct=db.machine.name)
                                                    #db.worker_stats.on(db.worker.id==db.worker_stats.worker_id)]
                                              #groupby=db.machine.name | db.machine.ip | db.machine.port | db.machine.alive | db.machine.platform_id | db.worker.miner_id | db.worker.time_start | db.worker.time_stop)
-    else:
-        return dict(rows = db(db.machine.id=mach_id).select(db.machine.name,
-                                             db.machine.ip,
-                                             db.machine.port,
-                                             db.machine.alive,
-                                             db.platform.os,
-                                             db.platform.type,
-                                             db.platform.arch,
-                                             db.miner.name,
-                                             db.miner.version,
-                                             db.worker.time_start,
-                                             db.worker.time_stop,
-                                             #db.miner.timestamp.max(),
-                                             left=[db.worker.on(db.machine.id==db.worker.machine_id),
-                                                   db.platform.on(db.machine.platform_id==db.platform.id),
-                                                   db.miner.on(db.worker.miner_id==db.miner.id)]))
 
 def send_task():
     #print 'inicializa el TaskMaster'

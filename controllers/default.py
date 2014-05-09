@@ -10,11 +10,11 @@
 #########################################################################
 
 import asyncore
-from TaskMaster import TaskMaster
+#from TaskMaster import TaskMaster
 #import HeadNode
 from time import sleep
 import logging
-import pymysql
+#import pymysql
 import random
 import re
 import sys
@@ -125,18 +125,44 @@ def machine_dash():
                         deletable=False,
                         editable=False)
     return locals()
-    #return dict(rows = db(db.machine).select(db.machine.name,
-                                             #db.machine.ip,
-                                             #db.machine.port,
-                                             #db.machine.alive,
-                                             #db.machine.platform_id,
-                                             #db.worker.miner_id,
-                                             #db.worker.time_start,
-                                             #db.worker.time_stop,
+
+@auth.requires_login()
+def machine_dash_2():
+    mach_id = request.args(0)
+    if(mach_id == None):
+        return dict(rows = db(db.machine).select(db.machine.name,
+                                             db.machine.ip,
+                                             db.machine.port,
+                                             db.machine.alive,
+                                             db.platform.os,
+                                             db.platform.type,
+                                             db.platform.arch,
+                                             db.miner.name,
+                                             db.miner.version,
+                                             db.worker.time_start,
+                                             db.worker.time_stop,
                                              #db.miner.timestamp.max(),
-                                             #left=[db.worker.on(db.machine.id==db.worker.machine_id)]))
+                                             left=[db.worker.on(db.machine.id==db.worker.machine_id),
+                                                   db.platform.on(db.machine.platform_id==db.platform.id),
+                                                   db.miner.on(db.worker.miner_id==db.miner.id)]))
                                                    #db.worker_stats.on(db.worker.id==db.worker_stats.worker_id)]
                                              #groupby=db.machine.name | db.machine.ip | db.machine.port | db.machine.alive | db.machine.platform_id | db.worker.miner_id | db.worker.time_start | db.worker.time_stop)
+    else:
+        return dict(rows = db(db.machine.id==mach_id).select(db.machine.name,
+                                             db.machine.ip,
+                                             db.machine.port,
+                                             db.machine.alive,
+                                             db.platform.os,
+                                             db.platform.type,
+                                             db.platform.arch,
+                                             db.miner.name,
+                                             db.miner.version,
+                                             db.worker.time_start,
+                                             db.worker.time_stop,
+                                             #db.miner.timestamp.max(),
+                                             left=[db.worker.on(db.machine.id==db.worker.machine_id),
+                                                   db.platform.on(db.machine.platform_id==db.platform.id),
+                                                   db.miner.on(db.worker.miner_id==db.miner.id)]))
 
 def send_task():
     #print 'inicializa el TaskMaster'

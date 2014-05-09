@@ -1,23 +1,13 @@
 {{extend 'layout.html'}}
 <h1>Machine Dash</h1>
     <div class="web2py_grid ">
-	<div class="web2py_table">
+        <div class="web2py_table">
 			<div class="web2py_htmltable" style="width:100%;overflow-x:auto;-ms-overflow-x:scroll">
 				<table>
-					<colgroup>
-						<col data-column="1" id="machine-name" />
-						<col data-column="2" id="machine-ip" />
-						<col data-column="3" id="machine-port" />
-						<col data-column="4" id="machine-alive" />
-						<!--col data-column="5" id="machine-platform_id" />
-						<col data-column="6" id="worker-miner_id" /-->
-						<col data-column="5" id="worker-time_start" />
-						<col data-column="6" id="worker-time_stop" />
-					</colgroup>
 					<thead>
-						<tr class="">
-							<th class="">
-								Machine name
+						<tr>
+							<th>
+								<a>Machine name</a>
 							</th>
 							<th>
 								<a>IP</a>
@@ -27,6 +17,12 @@
 							</th>
 							<th>
 								<a>Alive</a>
+							</th>
+							<th>
+								<a>Platform</a>
+							</th>
+							<th>
+								<a>Miner</a>
 							</th>
 							<th>
 								<a>Start time</a>
@@ -39,7 +35,7 @@
 				{{i=1}}
 				{{for row in rows:}}
 					<tbody>
-					{{if (i%2)==0:}}
+					{{if (i%2)==1:}}
 						<tr class="w2p_even even with_id">
 					{{else:}}
 						<tr class="w2p_odd odd with_id">
@@ -57,12 +53,19 @@
 							{{=row.machine.alive}}
 						</td>
 						<td>
+							{{=row.platform.os}} - {{=row.platform.type}} - {{=row.platform.arch}}
+						</td>
+						<td>
+							{{=row.miner.name}} - {{=row.miner.version}}
+						</td>
+						<td>
 							{{=row.worker.time_start}}
 						</td>
 						<td>
 							{{=row.worker.time_stop}}
 						</td>
 					</tr>
+                {{i+=1}}
 				{{pass}}
 				</tbody>
 				</table>

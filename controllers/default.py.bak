@@ -10,7 +10,7 @@
 #########################################################################
 
 import asyncore
-#from TaskMaster import TaskMaster
+from TaskMaster import TaskMaster
 #import HeadNode
 from time import sleep
 import logging
@@ -128,12 +128,10 @@ def machine_dash():
 
 @auth.requires_login()
 def machine_dash_2():
-    mach_id = request.args(0)
-    if(mach_id == None):
+    if not request.args:
         query = db.machine
     else:
-        query = db.machine==mach_id
-        pass
+        query = db.machine.id==request.args[0]
     return dict(rows = db(query).select(db.machine.id,
                                         db.machine.name,
                                              db.machine.ip,
@@ -142,6 +140,7 @@ def machine_dash_2():
                                              db.platform.os,
                                              db.platform.type,
                                              db.platform.arch,
+                                             db.miner.id,
                                              db.miner.name,
                                              db.miner.version,
                                              db.worker.id,
@@ -151,17 +150,73 @@ def machine_dash_2():
                                              left=[db.worker.on(db.machine.id==db.worker.machine_id),
                                                    db.platform.on(db.machine.platform_id==db.platform.id),
                                                    db.miner.on(db.worker.miner_id==db.miner.id)],
-                                             orderby=db.machine.name | ~db.machine.alive))
+                                             orderby=db.machine.name | ~db.machine.alive | ~db.worker.time_start))
                                              #,distinct=db.machine.name)
                                                    #db.worker_stats.on(db.worker.id==db.worker_stats.worker_id)]
                                              #groupby=db.machine.name | db.machine.ip | db.machine.port | db.machine.alive | db.machine.platform_id | db.worker.miner_id | db.worker.time_start | db.worker.time_stop)
 
-def send_task():
-    #print 'inicializa el TaskMaster'
-    #connector = TaskMaster(addr)
-    connector = TaskMaster(('127.0.0.1',58042))
-    #print 'TaskMaster manda el comando: ' + str(task)
-    connector.send_command('test 1')
+def test_send():
+    send_task(('127.0.0.1',51485),'start 1111')
+
+@auth.requires_login()
+def send_command():
+    #if request.args:
+    #    print ' '.join(request.args)
+    if not request.args or len(request.args)<2:
+        redirect(URL('error'))
+    command = request.args[0]
+    if (command=='start' or command=='stop' or command=='test') and len(request.args)<3:
+        redirect(URL('error'))
+    machine_id=request.args[1]
+    rows = db(db.machine.id==machine_id).select(db.machine.ip,
+                                                    db.machine.port)
+    row = rows[0]
+    #print row
+    ip = row.ip
+    port = int(row.port)
+    if command=='start':
+        miner_id=request.args[2]
+        task = 'start '+miner_id
+    elif command=='stop':
+        worker_id=request.args[2]
+        task = 'stop '+worker_id
+        pass
+    elif command=='test':
+        miner_id=request.args[2]
+        task = 'test '+miner_id
+        pass
+    elif command=='quit':
+        task = 'quit'
+        pass
+    else:
+        redirect(URL('error'))
+    send_task((ip,port),task)
+    print 'send_task((',ip,',',port,'),\'',task,'\')'
+    redirect(URL('machine_dash_2'))
+
+@auth.requires_login()
+def start_worker():
+    if not request.args:
+        redirect(URL('error'))
+    query = db.machine.id==request.args(0)
+    return dict(rows = db(query).select(db.machine.id,
+                                        db.machine.ip,
+                                        db.machine.port,
+                                        db.miner.ALL,
+                                        db.currency.ALL,
+                                        db.pool.ALL,
+                                        left=[db.miner.on(db.machine.platform_id==db.miner.platform_id),
+                                              db.currency.on(db.miner.currency_id==db.currency.id),
+                                              db.pool.on(db.miner.pool_id==db.pool.id)]))
+
+# ##########################################################
+# ## auxiliary functions
+# ###########################################################
+
+def send_task(addr, task):
+    print 'inicializa el TaskMaster'
+    connector = TaskMaster(addr)
+    print 'TaskMaster manda el comando: ' + str(task)
+    connector.send_command(task)
     asyncore.loop()
-    #print 'CALLBACK:' + 
-    connector.get_callback()
+    print 'CALLBACK: ' , connector.get_callback()

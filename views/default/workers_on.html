@@ -1,0 +1,72 @@
+{{response.files.insert(0,URL('static','css/imagenes.css'))}}
+
+{{extend 'layout.html'}}
+{{from datetime import *}}
+{{now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')}}
+<html>
+<body style="background:#6699FF">
+<head>
+    <link href="{{=URL('static', 'css/table_override.css')}}" rel="stylesheet" type="text/css" />
+</head>
+<h1>Workers activos</h1>
+    <div class="web2py_grid ">
+        <div class="web2py_table">
+			<div class="web2py_htmltable" style="width:100%;overflow-x:auto;-ms-overflow-x:scroll">
+                <hr>
+				<table border="2">
+					<thead>
+                        <tr>   
+                            <th  style="background-color:#6699FF" colspan="7" style="text-align:center;"><a>  </a></th>
+                            <th  colspan="3" style="text-align:center;"><a href="/CloudMiner/default/machine_dash_2.html" target="_blank"> Machine Dash</a></th>
+                        </tr>
+						<tr>
+							<th><a>Id</a></th>
+                            <th><a>Machine name</a></th>
+                            <th><a>Miner name</a></th>
+							<th><a>Start time</a></th>
+							<th><a>Stop time</a></th>
+                            <th><a>Hash rate</a></th>
+							<th><a>Hash average</a></th>
+							<th><a>Hash count</a></th>
+							<th><a>Time Stamp</a></th>
+							<th><a>State</a></th>
+						</tr>
+					</thead>
+				{{i=1}}
+                    <tbody>
+				{{for row in workers_on:}}
+                    {{if (i%2)==1:}}
+                        <tr class="w2p_even even with_id">
+                    {{else:}}
+                        <tr class="w2p_odd odd with_id">
+                    {{pass}}
+                    {{if (row.worker.time_stop==None or row.worker.time_stop < now):}}
+                        <td>{{=row.worker.id}}</td>
+                        <td>{{=row.machine.name}}</td>
+                        <td>{{=row.miner.name}}</td>
+                        <td>{{=row.worker.time_start}}</td>
+                        <td>{{if row.worker.time_stop!=None:}} {{=row.worker.time_stop}}  {{else:}} -  {{pass}} </td>
+                        <td>{{if row.worker_stats.hash_rate!=None:}} {{=row.worker_stats.hash_rate}}  {{else:}} - {{pass}} </td>
+                        <td>{{if row.worker_stats.hash_avg!=None:}} {{=row.worker_stats.hash_avg}}  {{else:}} - {{pass}} </td>
+                        <td>{{if row.worker_stats.hash_count!=None:}} {{=row.worker_stats.hash_count}}  {{else:}} - {{pass}} </td>
+                        <td>{{if row.worker_stats.timestamp!=None:}} {{=row.worker_stats.timestamp}}  {{else:}} - {{pass}} </td>
+                        <!-- Botón PARAR WORKER -->
+                        <td>
+                            <button
+                                    onClick="document.location.reload();"
+                                    type="button" class = "botonimagenstop" 
+                                    href="/CloudMiner/default/machine_dash_2">On <!--Aqui pasar /CloudMiner/controler/WorkerStop/worker_id_i -->
+                            </button>
+                        </td>
+                    {{else:}}
+                    {{pass}}
+                    </tr>
+                    {{i+=1}}
+				    {{pass}}
+				</tbody>
+				</table>
+            </div>
+		</div>
+	</div>
+    </body>
+</html>

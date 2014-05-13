@@ -147,6 +147,7 @@ def machine_dash_2():
                                              db.worker.id,
                                              db.worker.time_start,
                                              db.worker.time_stop,
+                                             db.worker.tested,
                                              #db.miner.timestamp.max(),
                                              left=[db.worker.on(db.machine.id==db.worker.machine_id),
                                                    db.platform.on(db.machine.platform_id==db.platform.id),
@@ -158,6 +159,32 @@ def machine_dash_2():
 
 def test_send():
     send_task(('127.0.0.1',51485),'start 1111')
+
+def workers_on():
+    if not request.args:
+        query = db.worker
+    else:
+        query = db.worker.id==request.args[0]
+    workers_on = db(query).select(db.worker.id,
+                             db.worker.machine_id,
+                             db.worker.miner_id,
+                             db.worker.time_start,
+                             db.worker.time_stop,
+                             db.worker_stats.hash_rate,
+                             db.worker_stats.hash_avg,
+                             db.worker_stats.hash_count,
+                             db.worker_stats.timestamp,
+                             db.machine.name,
+                             db.miner.name,
+                             left=[db.worker_stats.on(db.worker.id==db.worker_stats.worker_id),
+                                   db.machine.on(db.worker.machine_id==db.machine.id),
+                                   db.miner.on(db.worker.miner_id==db.miner.id)])
+    return dict(workers_on=workers_on)
+
+def workers_active():
+    #workers = db().select(db.worker.ALL)
+    grid = SQLFORM.smartgrid(db.worker, create=False, editable=False, deletable=True)
+    return locals()
 
 @auth.requires_login()
 def send_command():

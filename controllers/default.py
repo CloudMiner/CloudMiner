@@ -10,7 +10,8 @@
 #########################################################################
 
 import asyncore
-from TaskMaster import TaskMaster
+#from TaskMaster 
+import TaskMaster
 #import HeadNode
 from time import sleep
 import logging
@@ -146,6 +147,7 @@ def machine_dash_2():
                                              db.worker.id,
                                              db.worker.time_start,
                                              db.worker.time_stop,
+                                             db.worker.tested,
                                              #db.miner.timestamp.max(),
                                              left=[db.worker.on(db.machine.id==db.worker.machine_id),
                                                    db.platform.on(db.machine.platform_id==db.platform.id),
@@ -216,7 +218,7 @@ def start_worker():
 
 def send_task(addr, task):
     print 'inicializa el TaskMaster'
-    connector = TaskMaster(addr)
+    connector = TaskMaster.TaskMaster(addr)
     print 'TaskMaster manda el comando: ' + str(task)
     connector.send_command(task)
     asyncore.loop()

@@ -122,6 +122,7 @@ db.define_table('worker',
                 Field('miner_id',   'reference miner'),
                 Field('time_start', 'datetime', required=True, notnull=True),
                 Field('time_stop',  'datetime', required=True, notnull=True),
+                Field('tested',     'string', length=1),
                 format = 'worker %(id)s')
 
 db.define_table('worker_stats',

@@ -10,7 +10,8 @@
 #########################################################################
 
 import asyncore
-from TaskMaster import TaskMaster
+#from TaskMaster 
+import TaskMaster
 #import HeadNode
 from time import sleep
 import logging
@@ -191,6 +192,7 @@ def send_command():
     else:
         redirect(URL('error'))
     send_task((ip,port),task)
+    sleep(2)
     print 'send_task((',ip,',',port,'),\'',task,'\')'
     redirect(URL('machine_dash_2'))
 
@@ -215,7 +217,7 @@ def start_worker():
 
 def send_task(addr, task):
     print 'inicializa el TaskMaster'
-    connector = TaskMaster(addr)
+    connector = TaskMaster.TaskMaster(addr)
     print 'TaskMaster manda el comando: ' + str(task)
     connector.send_command(task)
     asyncore.loop()

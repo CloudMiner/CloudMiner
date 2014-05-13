@@ -43,32 +43,37 @@
                         {{else:}}
                             <tr class="w2p_odd odd with_id">
                             {{pass}}
-                        <td>{{=row.machine.name}}</td>
+                        <td>
+                            {{=row.machine.name}}
+                            {{if row.machine.alive==True:}}
+                                {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:20px;width:20px",_alt="STOP!"), _href=URL('send_command', args=['quit',row.machine.id]))}}
+                                {{pass}}
+                        </td>
                         <td>{{=row.platform.os}} - {{=row.platform.type}} - {{=row.platform.arch}}</td>
                         {{if row.machine.alive==None:}}
-                            <td>{{=IMG(_src=URL('static','images/question_mark_50.png'),_style="height:15px;width:15px",_alt="?")}}</td>
+                            <td>{{=IMG(_src=URL('static','images/question_mark_50.png'),_style="height:20px;width:20px",_alt="?")}}</td>
                             <td>-<td/>
                             <td>-<td/>
                         {{elif row.machine.alive==False:}}
-                            <td>{{=IMG(_src=URL('static','images/img_Cross_50.png'),_style="height:15px;width:15px",_alt="No")}}</td>
+                            <td>{{=IMG(_src=URL('static','images/img_Cross_50.png'),_style="height:20px;width:20px",_alt="NO")}}</td>
                             <td>-</td>
                             <td>-</td>
                         {{else:}}
-                            <td>{{=IMG(_src=URL('static','images/tick_50.png'),_style="height:15px;width:15px",_alt="Yes")}}</td>
+                            <td>{{=IMG(_src=URL('static','images/tick_50.png'),_style="height:20px;width:20px",_alt="YES")}}</td>
                             <td>{{=row.machine.ip}}</td>
                             <td>{{=row.machine.port}}</td>
                             {{pass}}
                         {{if row.machine.alive==None or row.machine.alive==False:}}
                                 <td>-</td><td>-</td><td>-</td>
                         {{elif row.miner.name==None or (row.worker.time_stop!=None and row.worker.time_stop < now):}}
-                                <td>{{=A(IMG(_src=URL('static','images/add_50.png'),_style="height:25px;width:25px",_alt="Yes"), _href=URL('start_worker', args=row.machine.id))}}</td>
+                                <td>{{=A(IMG(_src=URL('static','images/add_50.png'),_style="height:20px;width:20px",_alt="ADD"), _href=URL('start_worker', args=row.machine.id))}}</td>
                                 <td>-</td><td>-</td>
                         {{else:}}
                             <td>
                                 <a href="{{=URL('workers_on',args=row.worker.id)}}">
                                     {{=row.miner.name}} - v{{=row.miner.version}}
                                 </a>
-                                {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:25px;width:25px",_alt="start!"), _href=URL('send_command', args=['stop',row.machine.id,row.worker.id]))}}
+                                {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:20px;width:20px",_alt="STOP!"), _href=URL('send_command', args=['stop',row.machine.id,row.worker.id]))}}
                             </td>
                             <td>{{=row.worker.time_start}}</td>
                             <td>{{=row.worker.time_stop}}</td>

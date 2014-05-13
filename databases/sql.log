@@ -262,3 +262,7 @@ CREATE TABLE worker_stats(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
+timestamp: 2014-05-11T21:37:09.609586
+ALTER TABLE worker ADD tested VARCHAR(1);
+success!
+success!

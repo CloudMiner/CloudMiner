@@ -384,6 +384,7 @@
 'Table': 'tabla',
 'Table name': 'Nombre de la tabla',
 'test': 'probar',
+'Tested': 'Tested',
 'Testing application': 'Probando aplicación',
 'The "query" is a condition like "db.table1.field1==\'value\'". Something like "db.table1.field1==db.table2.field2" results in a SQL JOIN.': 'La "consulta" es una condición como "db.tabla1.campo1==\'valor\'". Algo como "db.tabla1.campo1==db.tabla2.campo2" resulta en un JOIN SQL.',
 'the application logic, each URL path is mapped in one exposed function in the controller': 'la lógica de la aplicación, cada ruta URL se mapea en una función expuesta en el controlador',

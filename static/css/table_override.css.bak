@@ -1,0 +1,2 @@
+td,th {text-align:center;}
+td{vertical-align:middle;margin-top:2px;}

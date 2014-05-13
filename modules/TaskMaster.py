@@ -4,13 +4,13 @@ Created on 20/10/2013
 @author: hackturo
 '''
 import socket
-import asyncore
+from asyncore import dispatcher
 import logging
 from cStringIO import StringIO
 
 from time import sleep
 
-class TaskMaster(object):
+class TaskMaster(dispatcher):
     '''
     Sends messages to the worker node and receives responses.
     '''
@@ -23,7 +23,8 @@ class TaskMaster(object):
         self.read_buffer = StringIO()
         self.chunk_size = chunk_size
         self.logger = logging.getLogger('TaskMaster')
-        asyncore.dispatcher.__init__(self)
+        dispatcher.__init__(self)
+        #super().__init__(self)
         self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
         self.logger.debug('connecting to %s', address)
         self.connect(address)

@@ -29,7 +29,7 @@ INSERT INTO auth_membership VALUES (1,1,1);
 
 INSERT INTO platform (id,os,type,arch)
 VALUES 
-	(1,'Linux','LinuxMint','32bit'),
+	(1,'Linux','debian','32bit'),
 	(2,'Linux','LinuxMint','64bit'),
 	(3,'Windows','unique','64bit'),
 	(4,'Windows','unique','32bit');

@@ -92,6 +92,32 @@ def manage():
     grid = SQLFORM.grid(db[table], args=request.args[:1])
     return locals()
 
+def workers_active():
+    #workers = db().select(db.worker.ALL)
+    grid = SQLFORM.smartgrid(db.worker, create=False, editable=False, deletable=True)
+    return locals()
+
+def workers_on():
+    if not request.args:
+        query = db.worker
+    else:
+        query = db.worker.id==request.args[0]
+    workers_on = db(query).select(db.worker.id,
+                             db.worker.machine_id,
+                             db.worker.miner_id,
+                             db.worker.time_start,
+                             db.worker.time_stop,
+                             db.worker_stats.hash_rate,
+                             db.worker_stats.hash_avg,
+                             db.worker_stats.hash_count,
+                             db.worker_stats.timestamp,
+                             db.machine.name,
+                             db.miner.name,
+                             left=[db.worker_stats.on(db.worker.id==db.worker_stats.worker_id),
+                                   db.machine.on(db.worker.machine_id==db.machine.id),
+                                   db.miner.on(db.worker.miner_id==db.miner.id)])
+    return dict(workers_on=workers_on)
+
 #def manage():
 #    grid = SQLFORM.smartgrid(db.machine, linked_tables=['platform'])
 #    return dict(grid=grid)
@@ -191,6 +217,7 @@ def send_command():
     else:
         redirect(URL('error'))
     send_task((ip,port),task)
+    sleep(2)
     print 'send_task((',ip,',',port,'),\'',task,'\')'
     redirect(URL('machine_dash_2'))
 

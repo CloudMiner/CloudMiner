@@ -1,0 +1,44 @@
+def index():
+    if not request.args:
+        query = db.worker
+    else:
+        query = db.worker.id==request.args[0]
+    workers_on = db(query).select(db.worker.id,
+                             db.worker.machine_id,
+                             db.worker.miner_id,
+                             db.worker.time_start,
+                             db.worker.time_stop,
+                             db.worker_stats.hash_rate,
+                             db.worker_stats.hash_avg,
+                             db.worker_stats.hash_count,
+                             db.worker_stats.timestamp,
+                             db.machine.id,
+                             db.machine.name,
+                             db.miner.name,
+                             left=[db.worker_stats.on(db.worker.id==db.worker_stats.worker_id),
+                                   db.machine.on(db.worker.machine_id==db.machine.id),
+                                   db.miner.on(db.worker.miner_id==db.miner.id)],
+                             distinct=True)
+    return dict(workers_on=workers_on)
+
+def workers_on():
+    if not request.args:
+        query = db.worker
+    else:
+        query = db.worker.id==request.args[0]
+    workers_on = db(query).select(db.worker.id,
+                             db.worker.machine_id,
+                             db.worker.miner_id,
+                             db.worker.time_start,
+                             db.worker.time_stop,
+                             db.worker_stats.hash_rate,
+                             db.worker_stats.hash_avg,
+                             db.worker_stats.hash_count,
+                             db.worker_stats.timestamp,
+                             db.machine.name,
+                             db.miner.name,
+                             left=[db.worker_stats.on(db.worker.id==db.worker_stats.worker_id),
+                                   db.machine.on(db.worker.machine_id==db.machine.id),
+                                   db.miner.on(db.worker.miner_id==db.miner.id)],
+                             orderby=~db.worker_stats.hash_count)
+    return dict(workers_on=workers_on)

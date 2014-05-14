@@ -483,6 +483,7 @@
 'Which called the function %s located in the file %s': 'La cual llamó la función %s localizada en el archivo %s',
 'Worker Id': 'Worker Id',
 'Worker statses': 'Worker statses',
+'Workers': 'Workers',
 'Working...': 'Trabajando...',
 'XML': 'XML',
 'XML export of columns shown': 'XML export of columns shown',

@@ -5,8 +5,8 @@
 {{now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')}}
 <html>
 <head>
-<meta http-equiv="refresh" content="10; /CloudMiner/default/workers_on_2.html">
-<title>CloudMiner - Workers activos</title>
+<meta http-equiv="refresh" content="10; {{=URL(c='worker_cp')}} ">
+<title>CloudMiner - Worker control panel</title>
 </head>
 <body> <!--style="background:#6699FF"-->
     <link href="{{=URL('static', 'css/table_override.css')}}" rel="stylesheet" type="text/css" />
@@ -15,12 +15,12 @@
         <div class="web2py_table">
 			<div class="web2py_htmltable" style="width:100%;overflow-x:auto;-ms-overflow-x:scroll">
                 <hr>
-				<table border="2">
+				<table> <!--border="2"-->
 					<thead>
                         <tr>
                             <!--th  style="background-color:#6699FF" colspan="5" style="text-align:center;"><a>  </a></th-->
-                            <th></th>
-                            <th  colspan="5" style="text-align:center;"><a href="/CloudMiner/default/worker_stats.html" target="_blank"> Worker stats </a></th>
+                            <th colspan="5" ></th>
+                            <th  colspan="4" style="text-align:center;"><a href="/CloudMiner/default/worker_stats.html" target="_blank"> Worker stats </a></th>
                         </tr>
 						<tr>
 							<th><a>ID</a></th>

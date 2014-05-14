@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+<h1>
+    There has been an error!!
+</h1>
+{{if session.error_message!=None:}}
+    <h3>
+        {{=session.error_message}}
+    </h3>
+    {{pass}}

@@ -1,0 +1,47 @@
+{{extend 'layout.html'}}
+<head>
+    <link href="{{=URL('static', 'css/table_override.css')}}" rel="stylesheet" type="text/css" />
+</head>
+    {{mach_name=None}}
+    {{for row in rows:}}
+        {{mach_name=row.machine.name}}
+        <h1>Start Worker at <i>{{=mach_name}}</i></h1>
+        {{break}}
+    {{if mach_name == None:}}
+        <h1>Start Worker</h1>
+        {{pass}}
+    <div class="web2py_grid ">
+        <div class="web2py_table">
+			<div class="web2py_htmltable" style="width:100%;overflow-x:auto;-ms-overflow-x:scroll">
+				<table>
+					<thead>
+                        <tr>
+							<th><a>Miner</a></th>
+							<th><a>Currency</a></th>
+							<th><a>Pool</a></th>
+							<th><a>Command line</a></th>
+							<th></th>
+						</tr>
+					</thead>
+				    <tbody>
+                {{i=1}}
+                {{for row in rows:}}
+                    {{if (i%2)==1:}}
+                        <tr class="w2p_even even with_id">
+                    {{else:}}
+                        <tr class="w2p_odd odd with_id">
+                        {{pass}}
+                            <td>{{=row.miner.name}} v{{=row.miner.version}}</td>
+                            <td>{{=row.currency.name}}</td>
+                            <td>{{=row.pool.name}}</td>
+                            <td>{{=row.miner.command_line}}</td>
+                            <td>{{=A(IMG(_src=URL('static','images/play_green_50.png'),_style="height:25px;width:25px",_alt="start!"), _href=URL(c='send_command', args=['start',row.machine.id,row.miner.id]))}}</td>
+                        </tr>
+                    {{i+=1}}
+                    {{pass}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

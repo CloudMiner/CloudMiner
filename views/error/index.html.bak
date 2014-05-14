@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+<h1>
+    There has been an error!!
+</h1>
+{{if test!=None:}}
+    <h3>
+        {{=test}}
+    </h3>
+    {{pass}}

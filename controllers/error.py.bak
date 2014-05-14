@@ -1,0 +1,11 @@
+# coding: utf8
+# intente algo como
+def index():
+    if not request.args:
+        test = None
+    else:
+        test = request.args[0]
+    return decode(test)
+
+def decode(test):
+    return dict(test=test)

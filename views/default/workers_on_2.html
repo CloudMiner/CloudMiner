@@ -1,0 +1,98 @@
+{{response.files.insert(0,URL('static','css/imagenes.css'))}}
+
+{{extend 'layout.html'}}
+{{from datetime import *}}
+{{now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')}}
+<html>
+<head>
+<meta http-equiv="refresh" content="10; /CloudMiner/default/workers_on_2.html">  
+<title>CloudMiner - Workers activos</title>
+</head>    
+<body style="background:#6699FF">
+    <link href="{{=URL('static', 'css/table_override.css')}}" rel="stylesheet" type="text/css" />
+<h1>Workers activos</h1>
+    <div class="web2py_grid ">
+        <div class="web2py_table">
+			<div class="web2py_htmltable" style="width:100%;overflow-x:auto;-ms-overflow-x:scroll">
+                <hr>
+				<table border="2">
+					<thead>
+                        <tr>   
+                            <th  style="background-color:#6699FF" colspan="5" style="text-align:center;"><a>  </a></th>
+                            <th  colspan="5" style="text-align:center;"><a href="/CloudMiner/default/worker_stats.html" target="_blank"> Worker stats </a></th>
+                        </tr>
+						<tr>
+							<th><a>Nro</a></th>
+                            <th><a>Machine name</a></th>
+                            <th><a>Miner name</a></th>
+							<th><a>Start time</a></th>
+							<th><a>Stop time</a></th>
+                            <th><a>Hash rate</a></th>
+							<th><a>Hash average</a></th>
+							<th><a>Hash coount</a></th>
+							<th><a>Time Stamp</a></th>
+							<th><a>State</a></th>
+						</tr>
+					</thead>
+				{{i=1}}
+                    <tbody>
+                {{prev_worker_id=None}}
+                {{row=workers_on}}
+                {{len_row = len(workers_on)}}
+                {{prev=0}} {{next=1}}
+                {{while next < len_row:}}
+                    {{if row[prev].worker.time_stop==None or row[prev].worker.time_stop > now:}} <!--IF 1-->
+                       {{if (row[prev].worker.id!=row[next].worker.id):}} <!--IF 2-->
+                            {{if (i%2)==1:}}
+                            <tr class="w2p_even even with_id">
+                            {{else:}}
+                            <tr class="w2p_odd odd with_id">
+                            {{pass}}
+                            {{i+=1}}    
+                            <td>{{=row[prev].worker.id}}</td>
+                            <td>{{=row[prev].machine.name}}</td>  
+                            <td>{{=row[prev].miner.name}}</td>
+                            <td>{{=row[prev].worker.time_start}}</td>
+                            <td>{{if row[prev].worker.time_stop!=None:}} {{=row[prev].worker.time_stop}}  {{else:}} -  {{pass}} </td>
+                            <td>{{if row[prev].worker_stats.hash_rate!=None:}} {{=row[prev].worker_stats.hash_rate}}  {{else:}} - {{pass}} </td>
+                            <td>{{if row[prev].worker_stats.hash_avg!=None:}} {{=row[prev][prev].worker_stats.hash_avg}}{{else:}} - {{pass}} </td>
+                            <td>{{if row[prev].worker_stats.hash_count!=None:}} {{=row[prev].worker_stats.hash_count}}  {{else:}} - {{pass}} </td>
+                            <td>{{if row[prev].worker_stats.timestamp!=None:}} {{=row[prev].worker_stats.timestamp}}  {{else:}} - {{pass}} </td>
+                            <td>
+                                {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:25px;width:25px",_alt="start!"), _href=URL('send_command', args=['stop',row[prev].machine.id,row[prev].worker.id]))}}
+
+                            </td>    
+                       {{else:}}
+                            {{if (i%2)==1:}}
+                            <tr class="w2p_even even with_id">
+                            {{else:}}
+                            <tr class="w2p_odd odd with_id">
+                            {{pass}}
+                            {{i+=1}}    
+                            <td>{{=row[len_row-1].worker.id}}</td>
+                            <td>{{=row[len_row-1].machine.name}}</td>  
+                            <td>{{=row[len_row-1].miner.name}}</td>
+                            <td>{{=row[len_row-1].worker.time_start}}</td>
+                            <td>{{if row[len_row-1].worker.time_stop!=None:}} {{=row[len_row-1].worker.time_stop}}  {{else:}} -  {{pass}} </td>
+                            <td>{{if row[len_row-1].worker_stats.hash_rate!=None:}} {{=row[len_row-1].worker_stats.hash_rate}}  {{else:}} - {{pass}} </td>
+                            <td>{{if row[len_row-1].worker_stats.hash_avg!=None:}} {{=row[len_row-1].worker_stats.hash_avg}}{{else:}} - {{pass}} </td>
+                            <td>{{if row[len_row-1].worker_stats.hash_count!=None:}} {{=row[len_row-1].worker_stats.hash_count}}  {{else:}} - {{pass}} </td>
+                            <td>{{if row[len_row-1].worker_stats.timestamp!=None:}} {{=row[len_row-1].worker_stats.timestamp}}  {{else:}} - {{pass}} </td>
+                            <td>
+                                {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:25px;width:25px",_alt="start!"), _href=URL('send_command', args=['stop',row[len_row-1].machine.id,row[len_row-1].worker.id]))}}
+
+                            </td> 
+                            {{next=len_row}} 
+                       {{pass}} <!--Fin IF 2-->
+                       </tr>
+                   {{pass}} <!--Fin IF 1-->
+                    {{prev=next}}
+                    {{next+=1}}
+                {{pass}} <!--Fin FOR-->
+				</tbody>
+				</table>
+            </div>
+		</div>
+	</div>
+    </body>
+</html>

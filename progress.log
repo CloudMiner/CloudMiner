@@ -499,3 +499,14 @@
 [2014-05-13 23:08:06] EDIT CloudMiner/static/styleCloudMiner.css: 89
 [2014-05-13 23:08:48] CREATE imagenes.css: 0
 [2014-05-13 23:08:53] EDIT CloudMiner/static/imagenes.css: 7
+[2014-05-14 11:29:25] EDIT CloudMiner/controllers/default.py: 22
+[2014-05-14 11:34:35] EDIT CloudMiner/controllers/default.py: 4
+[2014-05-14 11:39:17] EDIT CloudMiner/controllers/default.py: 0
+[2014-05-14 11:43:01] DELETE CloudMiner/views/default/worker_stats.html: -4
+[2014-05-14 11:43:47] EDIT CloudMiner/views/default/workers_on_2.html: 0
+[2014-05-14 11:45:13] CREATE default/workers_stats.html: 0
+[2014-05-14 11:45:33] EDIT CloudMiner/views/default/workers_stats.html: 0
+[2014-05-14 11:47:38] DELETE CloudMiner/views/default/workers_stats.html: -3
+[2014-05-14 11:48:08] CREATE default/worker_stats.html: 0
+[2014-05-14 11:49:10] EDIT CloudMiner/views/default/worker_stats.html: 1
+[2014-05-14 11:49:19] EDIT CloudMiner/views/default/worker_stats.html: 0

@@ -262,8 +262,7 @@ div.error {
     margin-top:5px;
     margin-right:2px;
     width:35%;
-    float:right;
-    text-align:right;
+    text-align:left;
 }
 
 /*Fix firefox problem*/

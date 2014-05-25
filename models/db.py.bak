@@ -93,17 +93,22 @@ db.define_table('currency',
                 Field('name_short', 'string', length=3, required=True, notnull=True, unique=True),
                 format = '%(name_short)s')
 
+db.define_table('platform_group',
+                Field('name',   'string', length=50, required=True, notnull=True),
+                format = '%(name)s')
+
 db.define_table('platform',
-                Field('os',   'string', length=50, required=True, notnull=True),
-                Field('type', 'string', length=50, required=True, notnull=True),
-                Field('arch', 'string', length=10, required=True, notnull=True),
+                Field('os',      'string', length=50, required=True, notnull=True),
+                Field('type',    'string', length=50, required=True, notnull=True),
+                Field('arch',    'string', length=10, required=True, notnull=True),
+                Field('group_id','reference platform_group'),
                 #Field('version', 'string', length=50, required=False, default='unknown'),
                 format = '%(os)s - %(type)s - %(arch)s')# - v%(version)s')
 
 db.define_table('miner',
                 Field('name', 'string', length=150, required=True),
                 Field('version', 'string', length=50, required=True),
-                Field('platform_id', 'reference platform'),
+                Field('plat_group_id', 'reference platform'),
                 Field('currency_id', 'reference currency'),
                 Field('pool_id', 'reference pool'),
                 Field('command_line', length=300, required=True, notnull=True),
@@ -115,6 +120,7 @@ db.define_table('machine',
                 Field('port', 'string', length=5, required=True, notnull=True),
                 Field('alive', 'boolean', required=True, notnull=True),
                 Field('platform_id', 'reference platform'),
+                Field('icon', 'upload'),
                 format = '%(name)s')
 
 db.define_table('worker',
@@ -122,6 +128,7 @@ db.define_table('worker',
                 Field('miner_id',   'reference miner'),
                 Field('time_start', 'datetime', required=True, notnull=True),
                 Field('time_stop',  'datetime', required=True, notnull=True),
+                Field('tested',     'string', length=1),
                 format = 'worker %(id)s')
 
 db.define_table('worker_stats',

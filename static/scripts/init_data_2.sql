@@ -1,31 +1,48 @@
 USE cloudminer;
 
 /*DELETE FROM worker_stats WHERE id BETWEEN 1 AND 8;*/
-DELETE FROM worker WHERE id BETWEEN 1 AND 2;
-DELETE FROM miner WHERE id BETWEEN 1111 AND 2414;
-DELETE FROM currency WHERE id BETWEEN 1 AND 4;
-DELETE FROM machine WHERE id BETWEEN 1 AND 2;
-DELETE FROM platform WHERE id BETWEEN 1 AND 4;
-DELETE FROM pool WHERE id BETWEEN 1 AND 4;
-DELETE FROM auth_membership WHERE id BETWEEN 1 AND 1;
-DELETE FROM auth_event WHERE id BETWEEN 1 AND 3;
-DELETE FROM auth_group WHERE id BETWEEN 1 AND 1;
-DELETE FROM auth_user WHERE id BETWEEN 1 AND 1;
+DELETE FROM worker WHERE id BETWEEN 1 AND 9;
+DELETE FROM miner WHERE id BETWEEN 1 AND 99999;
+DELETE FROM currency WHERE id BETWEEN 1 AND 9;
+DELETE FROM machine WHERE id BETWEEN 1 AND 9;
+DELETE FROM platform_group WHERE id BETWEEN 1 AND 99;
+DELETE FROM platform WHERE id BETWEEN 1 AND 99;
+DELETE FROM pool WHERE id BETWEEN 1 AND 9;
+DELETE FROM auth_membership WHERE id BETWEEN 1 AND 9;
+DELETE FROM auth_event WHERE id BETWEEN 1 AND 9;
+DELETE FROM auth_group WHERE id BETWEEN 1 AND 9;
+DELETE FROM auth_user WHERE id BETWEEN 1 AND 9;
 
--- password para el usuario 'tomas' es 'tomas'
+-- password para el usuario 'Tomás Restrepo': 'tomas'
+-- password para el usuario 'Juan Arratia'  : 'juan'
+-- password para el usuario 'Arturo Pareja' : 'arturo'
 INSERT INTO auth_user 
 VALUES 
-	(1,'Tomás','Restrepo','tomas@tomas.com','pbkdf2(1000,20,sha512)$aebb22315f01cfa8$8457bf0590788f65ad0568f09a13f57ece77f852','','','');
+	(1,'Tomás','Restrepo','tomas@tomas.com','pbkdf2(1000,20,sha512)$aebb22315f01cfa8$8457bf0590788f65ad0568f09a13f57ece77f852','','',''),
+	(2,'Juan','Arratia','juan@juan.com','pbkdf2(1000,20,sha512)$8f62e6845834b9ea$11fc172b1c81c793269fbe3f7cc77ed46a2c5330','','',''),
+	(3,'Arturo','Pareja','arturo@arturo.com','pbkdf2(1000,20,sha512)$847a99ffb81d26a2$1841c85bd49e4137110309e0eda84b4cd89e1b10','','','');
 
-INSERT INTO auth_group VALUES (1,'user_1','Grupo asignado únicamente al usuario 1');
+INSERT INTO auth_group VALUES 
+(1,'user_1','Grupo asignado únicamente al usuario 1'),
+(2,'user_2','Grupo asignado únicamente al usuario 2'),
+(3,'user_3','Grupo asignado únicamente al usuario 3');
 
 INSERT INTO auth_event
 VALUES 
 	(1,'2014-03-27 20:41:51','127.0.0.1',NULL,'auth','Group 1 created'),
 	(2,'2014-03-27 20:41:51','127.0.0.1',1,'auth','User 1 Registered'),
-	(3,'2014-03-27 22:45:36','127.0.0.1',1,'auth','User 1 Logged-in');
+	(3,'2014-03-27 22:45:36','127.0.0.1',1,'auth','User 1 Logged-in'),
+	(4,'2014-03-27 20:41:51','127.0.0.1',NULL,'auth','Group 2 created'),
+	(5,'2014-03-27 20:41:51','127.0.0.1',2,'auth','User 2 Registered'),
+	(6,'2014-03-27 22:45:36','127.0.0.1',2,'auth','User 2 Logged-in'),
+	(7,'2014-03-27 20:41:51','127.0.0.1',NULL,'auth','Group 3 created'),
+	(8,'2014-03-27 20:41:51','127.0.0.1',3,'auth','User 3 Registered'),
+	(9,'2014-03-27 22:45:36','127.0.0.1',3,'auth','User 3 Logged-in');
 
-INSERT INTO auth_membership VALUES (1,1,1);
+INSERT INTO auth_membership VALUES 
+(1,1,1),
+(2,2,2),
+(3,3,3);
 
 INSERT INTO platform_group (id,name)
 VALUES
@@ -104,3 +121,4 @@ VALUES
 	(6,2,6,'2014-03-30 14:07:01'),
 	(7,2,5,'2014-03-30 14:07:06'),
 	(8,2,6,'2014-03-30 14:07:11');*/
+	

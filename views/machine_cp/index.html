@@ -89,7 +89,7 @@
                                 <!--td>-</td><td>-</td-->
                         {{else:}}
                             <td>
-                                <a href="{{=URL('workers_on',args=row.worker.id)}}">
+                                <a href="{{=URL(c='worker_cp',args=row.worker.id)}}">
                                     {{=row.miner.name}} - v{{=row.miner.version}}
                                 </a>
                                 {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:20px;width:20px",_alt="STOP!"), _href=URL(c='send_command', args=['stop',row.machine.id,row.worker.id]))}}

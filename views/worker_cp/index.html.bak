@@ -19,7 +19,7 @@
 					<thead>
                         <tr>
                             <!--th  style="background-color:#6699FF" colspan="5" style="text-align:center;"><a>  </a></th-->
-                            <th colspan="5" ></th>
+                            <th colspan="5" style="background-color:white;"></th>
                             <th  colspan="4" style="text-align:center;"><a href="/CloudMiner/default/worker_stats.html" target="_blank"> Worker stats </a></th>
                         </tr>
 						<tr>
@@ -80,7 +80,7 @@
                             <!--td>{{if row[len_row-1].worker_stats.hash_count!=None:}} {{=row[len_row-1].worker_stats.hash_count}}  {{else:}} - {{pass}} </td-->
                             <td>{{if row[len_row-1].worker_stats.timestamp!=None:}} {{=row[len_row-1].worker_stats.timestamp}}  {{else:}} - {{pass}} </td>
                             <td>
-                                {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:25px;width:25px",_alt="start!"), _href=URL('send_command', args=['stop',row[len_row-1].machine.id,row[len_row-1].worker.id]))}}
+                                {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:25px;width:25px",_alt="start!"), _href=URL(c='send_command', args=['stop',row[len_row-1].machine.id,row[len_row-1].worker.id]))}}
 
                             </td> 
                             {{next=len_row}} 

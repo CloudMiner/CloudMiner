@@ -54,9 +54,9 @@
                             <!--td>-</td>
                             <td>-</td-->
                         {{elif row.miner.name==None or (row.worker.time_stop!=None and row.worker.time_stop < now):}}
-                            <td>{{=IMG(_src=URL('static','images/mining_button_2.png'),_style="height:25px;width:70px",_alt="MINING")}}</td>
-                        {{else:}}
                             <td>{{=IMG(_src=URL('static','images/on_button.png'),_style="height:25px;width:70px",_alt="YES")}}</td>
+                        {{else:}}
+                            <td>{{=IMG(_src=URL('static','images/mining_button_2.png'),_style="height:25px;width:70px",_alt="MINING")}}</td>
                             <!--td>{{=row.machine.ip}}</td>
                             <td>{{=row.machine.port}}</td-->
                             {{pass}}

@@ -1,11 +1,15 @@
 {{extend 'layout.html'}}
 <head>
+    <!--link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet"-->
+    <link href="{{=URL('static', 'css/calendar_bootstrap_combined.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" media="screen"
+     href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
     <link href="{{=URL('static', 'css/table_override.css')}}" rel="stylesheet" type="text/css" />
-</head>
+  </head>
     {{mach_name=None}}
     {{for row in rows:}}
         {{mach_name=row.machine.name}}
-        <h1>Start Worker at <i>{{=mach_name}}</i></h1>
+        <h1>Start Worker at '<i>{{=mach_name}}</i>'</h1>
         {{break}}
     {{if mach_name == None:}}
         <h1>Start Worker</h1>
@@ -20,6 +24,7 @@
 							<th><a>Currency</a></th>
 							<th><a>Pool</a></th>
 							<th><a>Command line</a></th>
+                            <th><a>Scheduled end date</a></th>
 							<th></th>
 						</tr>
 					</thead>
@@ -35,7 +40,14 @@
                             <td>{{=row.currency.name}}</td>
                             <td>{{=row.pool.name}}</td>
                             <td>{{=row.miner.command_line}}</td>
-                            <td>{{=A(IMG(_src=URL('static','images/play_green_50.png'),_style="height:25px;width:25px",_alt="start!"), _href=URL(c='send_command', args=['start',row.machine.id,row.miner.id]))}}</td>
+                            <!--td>{{=INPUT(_class='date', _name='end_date', widget=SQLFORM.widgets.date.widget, requires=IS_DATE())}}</td-->
+                            <td><div id="datetimepicker{{=i}}" class="input-append date">
+      <input type="text"></input>
+      <span class="add-on">
+        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+      </span>
+    </div></td>
+                            <td style="min-width:40px">{{=A(IMG(_src=URL('static','images/play_green_50.png'),_style="height:25px;width:25px",_alt="start!"), _title="GO!", _href=URL(c='send_command', args=['start',row.machine.id,row.miner.id]))}}</td>
                         </tr>
                     {{i+=1}}
                     {{pass}}
@@ -45,3 +57,22 @@
         </div>
     </div>
 </div>
+<br/>
+    <script type="text/javascript"
+     src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+    </script> 
+    <script type="text/javascript"
+     src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+    </script>
+    <script type="text/javascript"
+     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <script type="text/javascript"
+     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+    </script>
+    <script type="text/javascript">
+      $('.input-append').datetimepicker({
+        format: 'dd/MM/yyyy hh:mm:ss',
+        language: 'es-ES'
+      });
+    </script>

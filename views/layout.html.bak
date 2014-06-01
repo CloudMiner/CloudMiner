@@ -317,6 +317,9 @@
                                     <a href="{{=URL(c="manage", args=['platform'])}}">Platforms</a>
                                 </li>
                                 <li>
+                                    <a href="{{=URL(c="manage", args=['platform_group'])}}">Platform Groups</a>
+                                </li>
+                                <li>
                                     <a href="{{=URL(c="manage", args=['machine'])}}">Machines</a>
                                 </li>
                                 <li>

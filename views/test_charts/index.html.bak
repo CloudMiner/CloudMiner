@@ -1,0 +1,40 @@
+{{extend 'layout.html'}}
+<!--p{{=online}}
+<br/>
+{{=offline}}
+<br/>
+{{=other}}
+<br/>
+{{=total}}-->
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Status',  'Number of machines'],
+          ['Online-idle',  {{=online}}],
+          ['Online-mining', {{=mining}}],
+          ['Offline', {{=offline}}],
+          ['???',     {{=other}}]
+        ]);
+
+        var options = {
+          title: 'Machine status',
+          is3D: true,
+          slices: {
+            0: { color: 'blue' },
+            1: { color: 'green' },
+            2: { color: 'red' }
+          }
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
+  </body>

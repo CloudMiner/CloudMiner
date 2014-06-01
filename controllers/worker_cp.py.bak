@@ -1,8 +1,10 @@
 def index():
     if not request.args:
         query = db.worker
+        worker_id = None
     else:
         query = db.worker.id==request.args[0]
+        worker_id = request.args[0]
     workers_on = db(query).select(db.worker.id,
                              db.worker.machine_id,
                              db.worker.miner_id,
@@ -19,7 +21,7 @@ def index():
                                    db.machine.on(db.worker.machine_id==db.machine.id),
                                    db.miner.on(db.worker.miner_id==db.miner.id)],
                              distinct=True)
-    return dict(workers_on=workers_on)
+    return dict(workers_on=workers_on, worker_id)
 
 def workers_on():
     if not request.args:
@@ -42,5 +44,3 @@ def workers_on():
                                    db.miner.on(db.worker.miner_id==db.miner.id)],
                              orderby=~db.worker_stats.hash_count)
     return dict(workers_on=workers_on)
-
-def workers_on_2():

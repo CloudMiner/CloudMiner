@@ -5,7 +5,11 @@
 {{now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')}}
 <html>
 <head>
-<meta http-equiv="refresh" content="10; {{=URL(c='worker_cp')}} ">
+{{if worker_id!=None:}}
+    <meta http-equiv="refresh" content="10; {{=URL(c='worker_cp', args=worker_id)}} ">
+{{else:}}
+    <meta http-equiv="refresh" content="30; {{=URL(c='worker_cp')}} ">
+    {{pass}}
 <title>CloudMiner - Worker control panel</title>
 </head>
 <body> <!--style="background:#6699FF"-->
@@ -20,7 +24,7 @@
                         <tr>
                             <!--th  style="background-color:#6699FF" colspan="5" style="text-align:center;"><a>  </a></th-->
                             <th colspan="5" style="background-color:white;"></th>
-                            <th  colspan="4" style="text-align:center;"><a href="/CloudMiner/default/worker_stats.html" target="_blank"> Worker stats </a></th>
+                            <th  colspan="4" style="text-align:center;"><a href="{{=URL(c='worker_stats')}}" target="_blank"> Worker stats </a></th>
                         </tr>
 						<tr>
 							<th><a>ID</a></th>

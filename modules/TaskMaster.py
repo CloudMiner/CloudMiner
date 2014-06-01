@@ -24,7 +24,6 @@ class TaskMaster(dispatcher):
         self.chunk_size = chunk_size
         self.logger = logging.getLogger('TaskMaster')
         dispatcher.__init__(self)
-        #super().__init__(self)
         self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
         self.logger.debug('connecting to %s', address)
         self.connect(address)

@@ -17,3 +17,10 @@ def data():
         tlist.append(elem)
 
     return dict(rows = tlist)
+
+@auth.requires_login()
+def data1():
+    query  = (db.worker_stats.worker_id == 50)
+    result =  db(query).select(db.worker_stats.timestamp, db.worker_stats.hash_rate)
+    return dict(rows = result)
+

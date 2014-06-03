@@ -4,7 +4,7 @@ USE cloudminer;
 DELETE FROM worker WHERE id BETWEEN 1 AND 9;
 DELETE FROM miner WHERE id BETWEEN 1 AND 99999;
 DELETE FROM currency WHERE id BETWEEN 1 AND 9;
-DELETE FROM machine WHERE id BETWEEN 1 AND 9;
+DELETE FROM machine WHERE id BETWEEN 1 AND 99;
 DELETE FROM platform_group WHERE id BETWEEN 1 AND 99;
 DELETE FROM platform WHERE id BETWEEN 1 AND 99;
 DELETE FROM pool WHERE id BETWEEN 1 AND 9;
@@ -62,7 +62,31 @@ VALUES
 INSERT INTO machine (id,platform_id,name,ip,port,alive)
 VALUES 
 	(1,11,'tomas-virtual-machine','0.0.0.0','37940','F'),
-	(2,92,'Tom-PC','0.0.0.0','65332','F');
+	(2,92,'Tom-PC','0.0.0.0','65332','F'),
+	(3,91,'Lab1_P01','0.0.0.0','0','F'),
+	(4,91,'Lab1_P02','0.0.0.0','0','F'),
+	(5,91,'Lab1_P03','0.0.0.0','0','T'),
+	(6,91,'Lab1_P04','0.0.0.0','0','T'),
+	(7,91,'Lab1_P05','0.0.0.0','0','T'),
+	(8,91,'Lab1_P06','0.0.0.0','0','F'),
+	(9,91,'Lab1_P07','0.0.0.0','0','F'),
+	(10,91,'Lab1_P08','0.0.0.0','0','F'),
+	(11,91,'Lab1_P09','0.0.0.0','0','F'),
+	(12,91,'Lab1_P10','0.0.0.0','0','F'),
+	(13,92,'Lab1_P11','0.0.0.0','0','T'),
+	(14,92,'Lab1_P12','0.0.0.0','0','T'),
+	(15,92,'Lab1_P13','0.0.0.0','0','T'),
+	(16,92,'Lab1_P14','0.0.0.0','0','F'),
+	(17,92,'Lab1_P15','0.0.0.0','0','F'),
+	(18,92,'Lab1_P16','0.0.0.0','0','T'),
+	(19,92,'Lab1_P17','0.0.0.0','0','T'),
+	(20,92,'Lab1_P18','0.0.0.0','0','T'),
+	(21,92,'Lab1_P19','0.0.0.0','0','F'),
+	(22,11,'Lab1_P15','0.0.0.0','0','F'),
+	(23,11,'Lab1_P16','0.0.0.0','0','T'),
+	(24,11,'Lab1_P17','0.0.0.0','0','T'),
+	(25,11,'Lab1_P18','0.0.0.0','0','F'),
+	(26,11,'Lab1_P19','0.0.0.0','0','F');
 
 INSERT INTO currency (id,name,name_short)
 VALUES 

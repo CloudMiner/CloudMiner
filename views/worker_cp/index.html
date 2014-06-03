@@ -5,7 +5,11 @@
 {{now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')}}
 <html>
 <head>
-<meta http-equiv="refresh" content="10; {{=URL(c='worker_cp')}} ">
+{{if worker_id!=None:}}
+    <meta http-equiv="refresh" content="30; {{=URL(c='worker_cp', args=worker_id)}} ">
+{{else:}}
+    <meta http-equiv="refresh" content="30; {{=URL(c='worker_cp')}} ">
+    {{pass}}
 <title>CloudMiner - Worker control panel</title>
 </head>
 <body> <!--style="background:#6699FF"-->

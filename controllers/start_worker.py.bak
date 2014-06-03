@@ -6,9 +6,12 @@ def index():
     return dict(rows = db(query).select(db.machine.id,
                                         db.machine.ip,
                                         db.machine.port,
+                                        db.machine.name,
                                         db.miner.ALL,
                                         db.currency.ALL,
                                         db.pool.ALL,
-                                        left=[db.miner.on(db.machine.platform_id==db.miner.platform_id),
+                                        left=[db.platform.on(db.machine.platform_id==db.platform.id),
+                                              db.platform_group.on(db.platform.plat_group_id==db.platform_group.id),
+                                              db.miner.on(db.platform_group.id==db.miner.plat_group_id),
                                               db.currency.on(db.miner.currency_id==db.currency.id),
                                               db.pool.on(db.miner.pool_id==db.pool.id)]))

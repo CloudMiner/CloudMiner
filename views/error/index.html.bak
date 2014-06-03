@@ -1,9 +1,9 @@
 {{extend 'layout.html'}}
 <h1>
-    There has been an error!!
+    {{=IMG(_src=URL('static','images/error_190.png'),_style="height:60px;width:60px",_alt="")}} There has been an error!!
 </h1>
-{{if test!=None:}}
+{{if session.error_message!=None:}}
     <h3>
-        {{=test}}
+        {{=session.error_message}}
     </h3>
     {{pass}}

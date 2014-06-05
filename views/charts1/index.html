@@ -1,0 +1,70 @@
+{{extend 'layout.html'}}
+{{from datetime import *}}
+{{now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')}}
+
+<!-- include stylesheets -->
+{{
+  response.files.insert(0,URL('static','css/plugins/morris/morris-0.4.3.min.css'))
+}}
+
+<div class="row">
+    <div id="line-example1" style="height: 250px;"></div> 
+    <div id="line-example2" style="height: 250px;"></div>          
+</div>
+<!-- /.row -->
+
+<!-- Page-Level Plugin Scripts - Morris -->
+<script src="{{=URL('static','js/plugins/morris/raphael-2.1.0.min.js')}}"></script>
+<script src="{{=URL('static','js/plugins/morris/morris.js')}}"></script>
+
+
+<script>
+    var json = (function () {
+            var json = null;
+            $.ajax({
+                'async': false,
+                'global': false,
+                'url': '{{=URL('charts1', 'data.json')}}',
+                'dataType': "json",
+                'success': function (data) {
+                    json = data;
+                }
+            });
+            return json;
+        })();
+  var testData = json['rows'];
+  new Morris.Bar({
+      element: 'line-example1',
+      data: testData,
+      xkey: 'name',
+      ykeys: ['count'],
+      labels: ['Machines'],
+      hideHover: 'auto',
+      resize: true
+  });
+</script>
+
+<script>
+    var json = (function () {
+            var json = null;
+            $.ajax({
+                'async': false,
+                'global': false,
+                'url': '{{=URL('charts1', 'data1.json')}}',
+                'dataType': "json",
+                'success': function (data) {
+                    json = data;
+                }
+            });
+            return json;
+        })();
+  var testData = json['rows'];
+  new Morris.Line({
+      element: 'line-example2',
+      data: testData,
+      xkey: 'timestamp',
+      ykeys: ['hash_rate'],
+      labels: ['Hash Rate'],
+      hideHover: 'auto'
+  });
+</script>

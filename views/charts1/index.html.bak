@@ -1,0 +1,116 @@
+{{extend 'layout.html'}}
+{{from datetime import *}}
+{{now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')}}
+<head>
+    <link href="{{=URL('static', 'css/table_override.css')}}" rel="stylesheet" type="text/css" />
+</head>
+<div style="max-width:900px">
+<h1>Machine control panel</h1>
+    <div class="web2py_grid ">
+        <div class="web2py_table">
+			<div class="web2py_htmltable" style="width:100%;overflow-x:auto;-ms-overflow-x:scroll">
+				<table>
+					<thead>
+                        <!--tr>
+                            <th style="background-color:white;"></th>
+                            <th style="background-color:white;"></th>
+                            <th style="background-color:white;"></th>
+                            <th style="background-color:white;"></th>
+                            <th style="background-color:white;"></th>
+                            <th colspan="3" style="text-align:center;"><a>Worker</a></th>
+                        </tr-->
+						<tr>
+							<th><a>Status</a></th>
+							<th><a>Machine name</a></th>
+							<th><a></a></th>
+							<th><a>Platform</a></th>
+							<!--th><a>IP</a></th>
+							<th><a>Port</a></th-->
+							<th><a>Miner</a></th>
+							<!--th><a>Start time</a></th>
+							<th><a>Stop time</a></th-->
+						</tr>
+					</thead>
+				{{i=1}}
+                {{prev_mach_name=None}}
+				{{prev_mach_port=None}}
+				{{prev_time_start=None}}
+                {{actual_time_start=None}}
+                {{prev_started=None}}
+                    <tbody>
+				{{for row in rows:}}
+                    {{if row.machine.name!=prev_mach_name:}}
+                        {{if (i%2)==1:}}
+                            <tr class="w2p_even even with_id">
+                        {{else:}}
+                            <tr class="w2p_odd odd with_id">
+                            {{pass}}
+                        {{if row.machine.alive==None:}}
+                            <td>{{=IMG(_src=URL('static','images/question_mark_50.png'),_style="height:25px;width:25px",_alt="?")}}</td>
+                            <!--td>-<td/>
+                            <td>-<td/-->
+                        {{elif row.machine.alive==False:}}
+                            <td>{{=IMG(_src=URL('static','images/off_button.png'),_style="height:25px;width:70px",_alt="NO")}}</td>
+                            <!--td>-</td>
+                            <td>-</td-->
+                        {{elif row.miner.name==None or (row.worker.time_stop!=None and row.worker.time_stop < now):}}
+                            <td>{{=IMG(_src=URL('static','images/on_button.png'),_style="height:25px;width:70px",_alt="YES")}}</td>
+                        {{else:}}
+                            <td>{{=IMG(_src=URL('static','images/mining_button_2.png'),_style="height:25px;width:70px",_alt="MINING")}}</td>
+                            <!--td>{{=row.machine.ip}}</td>
+                            <td>{{=row.machine.port}}</td-->
+                            {{pass}}
+                        <td>
+                            {{=row.machine.name}}
+                        </td>
+                        <td>
+                            {{if row.machine.alive==True:}}
+                                {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:20px;width:20px",_alt="STOP!"), _href=URL(c='send_command', args=['quit',row.machine.id]))}}
+                            {{else:}}
+                                {{=IMG(_src=URL('static','images/stop_50_grey.png'),_style="height:20px;width:20px",_alt="STOP!")}}
+                                {{pass}}
+                        </td>
+                        <td>
+                            {{if row.platform.os=='Windows':}}
+                                {{=IMG(_src=URL('static','images/windows_50.png'),_style="height:20px;width:20px",_alt="Windows")}}
+                            {{elif row.platform.os=='Linux':}}
+                                {{=IMG(_src=URL('static','images/linux_50.png'),_style="height:20px;width:20px",_alt="Linux")}}
+                            {{elif row.platform.os=='Darwin':}}
+                                {{=IMG(_src=URL('static','images/mac_50.png'),_style="height:20px;width:20px",_alt="Mac")}}
+                            {{else:}}
+                                {{=IMG(_src=URL('static','images/os_gen_50.png'),_style="height:20px;width:20px",_alt="Other OS")}}
+                            {{pass}}
+                            {{=row.platform.os}} - {{=row.platform.type}} - {{=row.platform.arch}}
+                        </td>
+                        {{if row.machine.alive==None or row.machine.alive==False:}}
+                                <td>-</td><!--td>-</td><td>-</td-->
+                        {{elif row.miner.name==None or (row.worker.time_stop!=None and row.worker.time_stop < now):}}
+                                <td>{{=A(IMG(_src=URL('static','images/add_50.png'),_style="height:20px;width:20px",_alt="ADD"), _href=URL(c='start_worker', args=row.machine.id))}}</td>
+                                <!--td>-</td><td>-</td-->
+                        {{else:}}
+                            <td>
+                                <a href="{{=URL('workers_on',args=row.worker.id)}}">
+                                    {{=row.miner.name}} - v{{=row.miner.version}}
+                                </a>
+                                {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:20px;width:20px",_alt="STOP!"), _href=URL(c='send_command', args=['stop',row.machine.id,row.worker.id]))}}
+                            </td>
+                            <!--td>{{=row.worker.time_start}}</td>
+                            <td>{{=row.worker.time_stop}}</td-->
+                            {{pass}}
+
+                    {{pass}}
+                    <!--td>{{=prev_time_start}}</td>
+                    <td>{{=actual_time_start}}</td-->
+                    </tr>
+                    {{prev_mach_name=row.machine.name}}
+                    {{prev_mach_port=row.machine.port}}
+                    {{prev_time_start=actual_time_start}}
+                    {{prev_started=row.machine.alive}}
+                    {{i+=1}}
+				    {{pass}}
+				</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -8,8 +8,9 @@
 }}
 
 <div class="row">
-    <div id="donut-example1" style="height: 250px;"></div> 
-    <div id="line-example2" style="height: 250px;"></div>          
+    <div id="donut-example1" style="height: 250px;"></div>
+    <!--div id="line-example2" style="height: 250px;"></div-->
+    <div id="line-example3" style="height: 250px; margin-left:30px;"></div>
 </div>
 <!-- /.row -->
 
@@ -61,6 +62,31 @@
       xkey: 'timestamp',
       ykeys: ['hash_rate'],
       labels: ['Hash Rate'],
+      hideHover: 'auto'
+  });
+</script>
+
+<script>
+    var json = (function () {
+            var json = null;
+            $.ajax({
+                'async': false,
+                'global': false,
+                'url': '{{=URL('charts', 'grouped_hashes_data.json')}}',
+                'dataType': "json",
+                'success': function (data) {
+                    json = data;
+                }
+            });
+            return json;
+        })();
+  var testData = json['rows'];
+  new Morris.Line({
+      element: 'line-example3',
+      data: testData,
+      xkey: 'time',
+      ykeys: ['BitCoin', 'LiteCoin', 'TerraCoin', 'NovaCoin'],
+      labels: ['BitCoin (MH/s)', 'LiteCoin (KH/s)', 'TerraCoin (KH/s)', 'NovaCoin (KH/s)'],
       hideHover: 'auto'
   });
 </script>

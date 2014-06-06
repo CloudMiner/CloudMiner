@@ -1,9 +1,50 @@
 {{extend 'layout.html'}}
 {{from datetime import *}}
 {{now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')}}
+<html>
 <head>
+    <title>Machine panel control</title>
     <link href="{{=URL('static', 'css/table_override.css')}}" rel="stylesheet" type="text/css" />
+    <script src="http://code.jquery.com/jquery-latest.js"></script> 
+
+    <style type="text/css">
+    /* Estilo que muestra la capa flotante */
+    #flotante
+    {
+        position: absolute;
+        display:none;
+        font-family:Arial;
+        font-size:0.8em;
+        width:280px;
+        border:1px solid #808080;
+        background-color:#f1f1f1;
+        padding:5px;
+    }
+    .text {font-weight:bold;}
+</style>
+
+<script type='text/javascript'>
+$(document).ready(function(){
+    // Cuando el mouse se pone encima de un elemento con el class=text
+    $(".text").mouseenter(function(event){
+        // Ponemos en el div flotante el contenido del attributo content del div
+        // donde se encuentra el mouse (this)
+        $("#flotante").html($(this).attr("content"));
+        // Posicionamos el div flotante y mo lostramos
+        $("#flotante").css({left:event.pageX-100, top:event.pageY-30, display:"block"});
+    });    
+    // Cuando el mouse sale del elemento con el class=text
+    $(".text").mouseleave(function(event){
+        // Escondemos el div flotante
+        $("#flotante").hide();
+    });
+});
+</script>
 </head>
+<body>
+    <div id="flotante"></div>
+<p>
+
 <div style="max-width:900px">
 <h1>Machine control panel</h1>
     <div class="web2py_grid ">
@@ -20,6 +61,7 @@
                             <th colspan="3" style="text-align:center;"><a>Worker</a></th>
                         </tr-->
 						<tr>
+                            <th><a>Info</a></th>
 							<th><a>Status</a></th>
 							<th><a>Machine name</a></th>
                             <th><a>Hash rate</a></th>
@@ -42,12 +84,19 @@
 				{{for row in rows:}}
                     {{if (i%2)==1:}}
                         <tr class="w2p_even even with_id">
-                        {{print "par"}}
                     {{else:}}
                         <tr class="w2p_odd odd with_id">
-                        {{print "impar"}}
-                    {{pass}}                        
-                        
+                    {{pass}}
+                    <td>    
+                        <div class='text' content= " <b><u>INFORMACION DEL WORKER:</u></b>
+                            <ul>
+                                <li> <b>Miner name:</b> <pre> {{=row.miner.name}}</pre> </li>
+                                <li> <b>Time start:</b> <pre>{{=row.worker.time_start}} </pre></li>
+                                <li> <b>Time stop:</b> <pre>{{=row.worker.time_stop}} </pre> </li>
+                                <li> <b>Tested:</b> <pre>{{=row.worker.tested}} </pre></li>
+                            </ul>"> {{=IMG(_src=URL('static','images/info.png'),_style="height:25px;width:25px",_alt="?")}}
+                        </div>
+                    </td>
                     {{if row.machine.alive==None:}}
                         <td>{{=IMG(_src=URL('static','images/question_mark_50.png'),_style="height:25px;width:25px",_alt="?")}}</td>
                         <!--td>-<td/>
@@ -83,7 +132,7 @@
                             <div> - </div>
                         {{else:}}
                             <div id ="content{{=i}}">Loading...</div>
-                        {{pass}}                        
+                        {{pass}}
                     </td>
                     <td>
                         {{if row.machine.alive==True:}}
@@ -114,8 +163,6 @@
 
                     <!--td>{{=prev_time_start}}</td>
                     <td>{{=actual_time_start}}</td-->
-
-                    
                     {{prev_mach_name=row.machine.name}}
                     {{prev_mach_port=row.machine.port}}
                     {{prev_time_start=actual_time_start}}
@@ -123,7 +170,6 @@
                     </tr>
                     {{i+=1}}
 			    {{pass}}
-                    
 				</tbody>
 				</table>
 			</div>
@@ -162,3 +208,5 @@
   });
 })(jQuery);
 </script>
+</body>
+</html>

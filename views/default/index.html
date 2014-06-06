@@ -1,35 +1,66 @@
-{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
 {{extend 'layout.html'}}
+{{from datetime import *}}
+{{now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')}}
 
-{{if 'message' in globals():}}
-<h3>{{=message}}</h3>
+<!-- include stylesheets -->
+{{
+  response.files.insert(0,URL('static','css/plugins/morris/morris-0.4.3.min.css'))
+}}
 
-<h4>{{=T('How did you get here?')}}</h4>
-<ol>
-  <li>{{=T('You are successfully running web2py')}}</li>
-  <li>{{=XML(T('You visited the url %s', A(request.env.path_info,_href=request.env.path_info)))}}</li>
-  <li>{{=XML(T('Which called the function %s located in the file %s',
-             (A(request.function+'()',_href='#'),
-              A('web2py/applications/%(application)s/controllers/%(controller)s.py'%request,
-               _href=URL('admin','default','peek', args=(request.application,'controllers',request.controller+'.py'))))))}}</li>
-  <li>{{=XML(T('The output of the file is a dictionary that was rendered by the view %s',
-           A('web2py/applications/%(application)s/views/%(controller)s/index.html'%request,
-           _href=URL('admin','default','peek',args=(request.application,'views',request.controller,'index.html')))))}}</li>
-  <li>{{=T('You can modify this application and adapt it to your needs')}}</li>
-</ol>
-{{elif 'content' in globals():}}
-{{=content}}
-{{else:}}
-{{=BEAUTIFY(response._vars)}}
-{{pass}}
+<div class="row">
+    <div id="donut-example1" style="height: 250px;"></div> 
+    <div id="line-example2" style="height: 250px;"></div>          
+</div>
+<!-- /.row -->
 
-{{block right_sidebar}}
-{{=A(T("Administrative Interface"), _href=URL('admin','default','index'), _class='btn',
-     _style='margin-top: 1em;')}}
-<h6>{{=T("Don't know what to do?")}}</h6>
-<ul>
-  <li>{{=A(T("Online examples"), _href=URL('examples','default','index'))}}</li>
-  <li><a href="http://web2py.com">web2py.com</a></li>
-  <li><a href="http://web2py.com/book">{{=T('Documentation')}}</a></li>
-</ul>
-{{end}}
+<!-- Page-Level Plugin Scripts - Morris -->
+<script src="{{=URL('static','js/plugins/morris/raphael-2.1.0.min.js')}}"></script>
+<script src="{{=URL('static','js/plugins/morris/morris.js')}}"></script>
+
+
+<script>
+    var json = (function () {
+            var json = null;
+            $.ajax({
+                'async': false,
+                'global': false,
+                'url': '{{=URL('dashboard', 'donut.json')}}',
+                'dataType': "json",
+                'success': function (data) {
+                    json = data;
+                }
+            });
+            return json;
+        })();
+  var testData = json['rows'];
+  new Morris.Donut({
+      element: 'donut-example1',
+      data: testData,
+      resize: true
+  });
+</script>
+
+<script>
+    var json = (function () {
+            var json = null;
+            $.ajax({
+                'async': false,
+                'global': false,
+                'url': '{{=URL('charts', 'data1.json')}}',
+                'dataType': "json",
+                'success': function (data) {
+                    json = data;
+                }
+            });
+            return json;
+        })();
+  var testData = json['rows'];
+  new Morris.Line({
+      element: 'line-example2',
+      data: testData,
+      xkey: 'timestamp',
+      ykeys: ['hash_rate'],
+      labels: ['Hash Rate'],
+      hideHover: 'auto'
+  });
+</script>

@@ -382,8 +382,8 @@
                                 <!--/li>
                             </ul-->
                             <!-- /.nav-second-level -->
-                        <!--/li-->
-                        <!--li>
+                        <!--/li>
+                        <li>
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -392,7 +392,7 @@
                                 <li>
                                     <a href="login.html">Login Page</a>
                                 </li>
-                            </ul>
+                            </ul-->
                             <!-- /.nav-second-level -->
                         <!--/li-->
                     </ul>
@@ -454,7 +454,7 @@
   </div> <!-- /#wrapper -->
   <!-- The javascript =============================================
        (Placed at the end of the document so the pages load faster) -->
-  <<script src="{{=URL('static','js/web2py_bootstrap.js')}}"></script>
+  <script src="{{=URL('static','js/web2py_bootstrap.js')}}"></script>
   <script src="{{=URL('static','js/jquery-1.10.2.js')}}"></script>
   <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
   <script src="{{=URL('static','js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>

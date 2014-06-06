@@ -31,7 +31,7 @@ $(document).ready(function(){
         // donde se encuentra el mouse (this)
         $("#flotante").html($(this).attr("content"));
         // Posicionamos el div flotante y mo lostramos
-        $("#flotante").css({left:event.pageX-100, top:event.pageY-30, display:"block"});
+        $("#flotante").css({left:event.pageX-580, top:event.pageY-50, display:"block"});
     });    
     // Cuando el mouse sale del elemento con el class=text
     $(".text").mouseleave(function(event){
@@ -46,7 +46,7 @@ $(document).ready(function(){
 <p>
 
 <div style="max-width:900px">
-<h1>Machine control panel</h1>
+<h1>{{=IMG(_src=URL('static','images/4comps_128.png'),_style="height:70px;width:70px;margin-left:40px;margin-right:30px;")}} Machine control panel</h1>
     <div class="web2py_grid ">
         <div class="web2py_table">
 			<div class="web2py_htmltable" style="width:100%;overflow-x:auto;-ms-overflow-x:scroll">
@@ -61,7 +61,7 @@ $(document).ready(function(){
                             <th colspan="3" style="text-align:center;"><a>Worker</a></th>
                         </tr-->
 						<tr>
-                            <th><a>Info</a></th>
+                            <!--th><a>Info</a></th-->
 							<th><a>Status</a></th>
 							<th><a>Machine name</a></th>
                             <th><a>Hash rate</a></th>
@@ -70,6 +70,8 @@ $(document).ready(function(){
 							<!--th><a>IP</a></th>
 							<th><a>Port</a></th-->
 							<th><a>Miner</a></th>
+                            <th><a></a></th>
+                            <th><a></a></th>
 							<!--th><a>Start time</a></th>
 							<th><a>Stop time</a></th-->
 						</tr>
@@ -87,16 +89,6 @@ $(document).ready(function(){
                     {{else:}}
                         <tr class="w2p_odd odd with_id">
                     {{pass}}
-                    <td>    
-                        <div class='text' content= " <b><u>INFORMACION DEL WORKER:</u></b>
-                            <ul>
-                                <li> <b>Miner name:</b> <pre> {{=row.miner.name}}</pre> </li>
-                                <li> <b>Time start:</b> <pre>{{=row.worker.time_start}} </pre></li>
-                                <li> <b>Time stop:</b> <pre>{{=row.worker.time_stop}} </pre> </li>
-                                <li> <b>Tested:</b> <pre>{{=row.worker.tested}} </pre></li>
-                            </ul>"> {{=IMG(_src=URL('static','images/info.png'),_style="height:25px;width:25px",_alt="?")}}
-                        </div>
-                    </td>
                     {{if row.machine.alive==None:}}
                         <td>{{=IMG(_src=URL('static','images/question_mark_50.png'),_style="height:25px;width:25px",_alt="?")}}</td>
                         <!--td>-<td/>
@@ -146,16 +138,28 @@ $(document).ready(function(){
                         <!--{{=row.platform.os}}--> - {{=row.platform.type}} - {{=row.platform.arch}}
                     </td>
                     {{if row.machine.alive==None or row.machine.alive==False:}}
-                            <td>-</td><!--td>-</td><td>-</td-->
+                            <td>-</td><td></td><td></td>
                     {{elif row.miner.name==None or (row.worker.time_stop!=None and row.worker.time_stop < now):}}
                             <td>{{=A(IMG(_src=URL('static','images/add_50.png'),_style="height:20px;width:20px",_alt="ADD"), _title="start new worker at \""+row.machine.name+"\"", _href=URL(c='start_worker', args=row.machine.id))}}</td>
-                            <!--td>-</td><td>-</td-->
+                            <td></td><td></td>
                     {{else:}}
                         <td>
                             <a href="{{=URL(c='worker_cp',args=row.worker.id)}}">
                                 {{=row.miner.name}} - v{{=row.miner.version}}
                             </a>
+                        </td>
+                        <td>
                             {{=A(IMG(_src=URL('static','images/stop_50.png'),_style="height:20px;width:20px",_alt="STOP!"), _title="stop miner \""+row.miner.name+"\" @ \""+row.machine.name+"\"", _href=URL(c='send_command', args=['stop',row.machine.id,row.worker.id]))}}
+                        
+                        <td>
+                            <div class="text" content= " <b><u>WORKER INFO:</u></b>
+                                <ul>
+                                    <li> <b>Miner name:</b> <pre> {{=row.miner.name}}</pre> </li>
+                                    <li> <b>Time start:</b> <pre>{{=row.worker.time_start}} </pre></li>
+                                    <li> <b>Time stop:</b> <pre>{{=row.worker.time_stop}} </pre> </li>
+                                    <li> <b>Tested:</b> <pre>{{=row.worker.tested}} </pre></li>
+                                </ul>"> {{=IMG(_src=URL('static','images/info.png'),_style="height:20px;width:20px",_alt="?")}}
+                            </div>
                         </td>
                         <!--td>{{=row.worker.time_start}}</td>
                         <td>{{=row.worker.time_stop}}</td-->

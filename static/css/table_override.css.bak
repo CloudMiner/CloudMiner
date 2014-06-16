@@ -1,2 +1,11 @@
 td,th {text-align:center;}
-td{vertical-align:middle;margin-top:2px;}
+
+info_panel{
+    width: 200px;
+    height: 250px;
+    background-color: #2979BF;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    float: left;
+}

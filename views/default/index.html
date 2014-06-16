@@ -6,11 +6,26 @@
 {{
   response.files.insert(0,URL('static','css/plugins/morris/morris-0.4.3.min.css'))
 }}
-
 <div class="row">
-    <div id="donut-example1" style="height: 250px;"></div>
+    <div id="info_panel"> 
+        {{=IMG(_src=URL('static','images/info_icon200_modB.png'),_id="info_icon")}}
+        <div id="info_text1"> 
+            SHA256d
+            <div id="info_subtext"> 562,46 MH/s </div>
+        </div>
+        <div id="info_text1">
+            scrypt
+            <div id="info_subtext"> 241,45 KH/s </div>
+        </div>
+        <div id="info_text3">
+            others
+            <div id="info_subtext"> 105,40 MH/s </div>
+        </div>
+    </div>
+    <div id="donut-example1" style="height: 250px; float:left; margin-top:40px;"></div>
     <!--div id="line-example2" style="height: 250px;"></div-->
-    <div id="line-example3" style="height: 250px; margin-left:30px;"></div>
+    <br/>
+    <div id="line-example3" style="height: 250px; width: 80%; margin-left:30px;"></div>
 </div>
 <!-- /.row -->
 
@@ -42,7 +57,7 @@
 </script>
 
 <script>
-    var json = (function () {
+    var json1 = (function () {
             var json = null;
             $.ajax({
                 'async': false,
@@ -55,7 +70,7 @@
             });
             return json;
         })();
-  var testData = json['rows'];
+  var testData = json1['rows'];
   new Morris.Line({
       element: 'line-example2',
       data: testData,
@@ -67,7 +82,7 @@
 </script>
 
 <script>
-    var json = (function () {
+    var json2 = (function () {
             var json = null;
             $.ajax({
                 'async': false,
@@ -80,7 +95,7 @@
             });
             return json;
         })();
-  var testData = json['rows'];
+  var testData = json2['rows'];
   new Morris.Line({
       element: 'line-example3',
       data: testData,

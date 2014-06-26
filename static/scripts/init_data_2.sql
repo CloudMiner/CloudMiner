@@ -46,16 +46,19 @@ INSERT INTO auth_membership VALUES
 
 INSERT INTO platform_group (id,name)
 VALUES
-	(11,'Linux_1'),
-	(21,'Windows_32_1'),
-	(22,'Windows_64_1');
+	(11,'Linux_32b_1'),
+	(12,'Linux_64b_1'),
+	(21,'Windows_32b_1'),
+	(22,'Windows_64b_1');
 
 INSERT INTO platform (id,os,type,arch,group_id)
 VALUES 
 	(11,'Linux','LinuxMint','32bit','11'),
-	(12,'Linux','LinuxMint','64bit','11'),
+	(12,'Linux','LinuxMint','64bit','12'),
 	(21,'Linux','debian','32bit','11'),
-	(22,'Linux','debian','64bit','11'),
+	(22,'Linux','debian','64bit','12'),
+	(31,'Linux','Ubuntu','32bit','11'),
+	(32,'Linux','Ubuntu','64bit','12'),
 	(91,'Windows','unique','32bit','21'),
 	(92,'Windows','unique','64bit','22');
 
@@ -108,6 +111,9 @@ VALUES
 	(11111,'minerd','2.3.2',11,1,1,'../Miners/minerd_2.3.2_linux32/minerd -a sha256d --benchmark'),
 	(11121,'minerd','2.3.2',11,2,1,'../Miners/minerd_2.3.2_linux32/minerd -a scrypt --benchmark'),
 	(11123,'minerd','2.3.2',11,2,3,'../Miners/minerd_2.3.2_linux32/minerd -a scrypt -o stratum+tcp://stratum.mine-litecoin.com -O cloudminer.worker1:x'),
+	(11211,'minerd','2.3.2',12,1,1,'../Miners/minerd_2.3.2_linux64/minerd -a sha256d --benchmark'),
+	(11221,'minerd','2.3.2',12,2,1,'../Miners/minerd_2.3.2_linux64/minerd -a scrypt --benchmark'),
+	(11223,'minerd','2.3.2',12,2,3,'../Miners/minerd_2.3.2_linux64/minerd -a scrypt -o stratum+tcp://stratum.mine-litecoin.com -O cloudminer.worker1:x'),
 	(12111,'minerd','2.3.2',21,1,1,'../Miners/minerd_2.3.2_win32/minerd.exe -a sha256d --benchmark'),
 	(12121,'minerd','2.3.2',21,2,1,'../Miners/minerd_2.3.2_win32/minerd.exe -a scrypt --benchmark'),
 	(12123,'minerd','2.3.2',21,2,3,'../Miners/minerd_2.3.2_win32/minerd.exe -a scrypt -o stratum+tcp://stratum.mine-litecoin.com -O cloudminer.worker1:x'),

@@ -29,3 +29,23 @@ def get_hashes():
 
     return dict(rows = tlist)
 
+@service.json
+def get_grouped_hashes():
+    result = db.executesql('SELECT timestamp, SUM(hash_rate) hash_sum FROM (SELECT DATE_ADD(ws1.timestamp, INTERVAL -(second(time(ws1.timestamp)) - (second(time(ws1.timestamp)) DIV 10 * 10)) second) timestamp, ws1.hash_rate FROM currency c, miner m, worker w, worker_stats ws1 WHERE (w.time_stop IS NULL OR w.time_stop>NOW()) AND ws1.worker_id = w.id AND m.id = w.miner_id AND c.id = m.currency_id AND ws1.hash_avg != 0 AND c.name = \'BitCoin\') t1 GROUP BY timestamp ORDER BY timestamp', as_dict=True)
+
+    dict1 = {}
+    for item in result: 
+        list1 = []
+        for i in range(3):
+            list1.append(0)
+
+        k = str(item['timestamp'])
+        if k in dict1.keys():
+            list1 = dict1[k]
+            list1[0] = item['hash_sum']
+        else:
+            list1[0] = item['hash_sum']
+            dict1[k] = list1
+
+    return dict1
+

@@ -9,6 +9,7 @@ import re
 import sys
 now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d %H:%M:%S')
 
+@auth.requires_login()
 def index():
     """
     example action using the internationalization operator T and flash

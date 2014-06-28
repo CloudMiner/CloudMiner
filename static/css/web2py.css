@@ -334,7 +334,7 @@ li.w2p_grid_breadcrumb_elem {
     float: left;
 }
 
-#info_text1{
+.info_text1{
     height: 70px;
     width:  120px;
     border-bottom: 5px solid white;
@@ -350,7 +350,7 @@ li.w2p_grid_breadcrumb_elem {
     text-align: center;
 }
 
-#info_text3{
+.info_text3{
     height: 70px;
     width:  120px;
     /*border-bottom: 5px solid white;*/
@@ -366,7 +366,7 @@ li.w2p_grid_breadcrumb_elem {
     text-align: center;
 }
 
-#info_subtext{
+.info_subtext{
     font-size: 0.80em;
     color: #2CC721;
 }

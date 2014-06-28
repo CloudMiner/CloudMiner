@@ -5,7 +5,7 @@
 <head>
     <title>Machine panel control</title>
     <link href="{{=URL('static', 'css/table_override.css')}}" rel="stylesheet" type="text/css" />
-    <script src="http://code.jquery.com/jquery-latest.js"></script> 
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
 
     <style type="text/css">
     /* Estilo que muestra la capa flotante */
@@ -31,7 +31,7 @@ $(document).ready(function(){
         // donde se encuentra el mouse (this)
         $("#flotante").html($(this).attr("content"));
         // Posicionamos el div flotante y mo lostramos
-        $("#flotante").css({left:event.pageX-580, top:event.pageY-50, display:"block"});
+        $("#flotante").css({left:event.pageX-550, top:event.pageY-40, display:"block"});
     });    
     // Cuando el mouse sale del elemento con el class=text
     $(".text").mouseleave(function(event){

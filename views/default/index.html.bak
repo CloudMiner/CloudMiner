@@ -7,15 +7,19 @@
   response.files.insert(0,URL('static','css/plugins/morris/morris-0.4.3.min.css'))
 }}
 <div class="row">
-    <div id="info_panel"> 
+    <div id="info_panel">
         {{=IMG(_src=URL('static','images/info_icon200_modB.png'),_id="info_icon")}}
-        <div id="info_text1"> 
+        <div class="info_text1">
             SHA256d
-            <div id="info_subtext"> 562,46 MH/s </div>
+            <div class="info_subtext" id="hashes1"> 562,46 MH/s </div>
         </div>
-        <div id="info_text1">
+        <div class="info_text1">
             scrypt
-            <div id="info_subtext"> 241,45 KH/s </div>
+            <div class="info_subtext" id="hashes2"> 241,45 KH/s </div>
+        </div>
+        <div class="info_text3">
+            others
+            <div class="info_subtext" id="hashes3"> 105,40 MH/s </div>
         </div>
     </div>
     <div id="donut-example1" style="height: 250px; float:left; margin-top:40px;"></div>

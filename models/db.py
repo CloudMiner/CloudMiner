@@ -91,6 +91,7 @@ db.define_table('pool',
 db.define_table('currency',
                 Field('name', 'string', length=100, required=True, notnull=True, unique=True),
                 Field('name_short', 'string', length=3, required=True, notnull=True, unique=True),
+                Field('algorithm', 'string', length=20),
                 format = '%(name_short)s')
 
 db.define_table('platform_group',

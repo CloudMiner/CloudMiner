@@ -94,7 +94,7 @@ db.define_table('currency',
                 format = '%(name_short)s')
 
 db.define_table('platform_group',
-                Field('name',   'string', length=50, required=True, notnull=True),
+                Field('name', 'string', length=50, required=True, notnull=True),
                 format = '%(name)s')
 
 db.define_table('platform',

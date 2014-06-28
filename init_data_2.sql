@@ -88,12 +88,13 @@ VALUES
 	(25,11,'Lab1_P18','0.0.0.0','0','F'),
 	(26,11,'Lab1_P19','0.0.0.0','0','F');
 
-INSERT INTO currency (id,name,name_short)
+INSERT INTO currency (id,name,name_short,algorithm)
 VALUES 
-	(1,'BitCoin','BTC'),
-	(2,'LiteCoin','LTC'),
-	(3,'NovaCoin','NVC'),
-	(4,'TerraCoin','TRC');
+	(1,'BitCoin','BTC','SHA-256d'),
+	(2,'LiteCoin','LTC','scrypt'),
+	(3,'NovaCoin','NVC','scrypt'),
+	(4,'TerraCoin','TRC','SHA-256d'),
+	(5,'DarkCoin','DRK','X11');
 
 INSERT INTO pool (id,name,webpage,account_email,account_ID)
 VALUES 

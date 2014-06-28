@@ -25,31 +25,6 @@ def data1():
     result =  db(query).select(db.worker_stats.timestamp, db.worker_stats.hash_rate)
     return dict(rows = result)
 
-def algorithm_hashes_data():
-    query_SHA = 'SELECT \'SHA-256d\' AS algorithm, IFNULL(SUM(ws1.hash_avg),0) hash_sum FROM currency c, miner m, worker w, worker_stats ws1, (SELECT worker_id, MAX(hash_count) hash_count FROM worker_stats WHERE timestamp >= DATE_ADD(\'2014-06-01 11:15:00\', INTERVAL -60 SECOND) /* NOW() */ GROUP BY worker_id) ws2 WHERE (w.time_stop IS NULL OR w.time_stop>NOW()) AND ws1.worker_id = w.id AND m.id = w.miner_id AND c.id = m.currency_id AND ws1.hash_count = ws2.hash_count AND ws1.worker_id = ws2.worker_id AND ws1.hash_avg != 0 AND LOWER(c.algorithm) = \'sha-256d\''
-    rows_SHA = db.executesql(query_SHA, as_dict=True)
-    query_scrypt = 'SELECT \'SHA-256d\' AS algorithm, IFNULL(SUM(ws1.hash_avg),0) hash_sum FROM currency c, miner m, worker w, worker_stats ws1, (SELECT worker_id, MAX(hash_count) hash_count FROM worker_stats WHERE timestamp >= DATE_ADD(\'2014-06-01 11:15:00\', INTERVAL -60 SECOND) /* NOW() */ GROUP BY worker_id) ws2 WHERE (w.time_stop IS NULL OR w.time_stop>NOW()) AND ws1.worker_id = w.id AND m.id = w.miner_id AND c.id = m.currency_id AND ws1.hash_count = ws2.hash_count AND ws1.worker_id = ws2.worker_id AND ws1.hash_avg != 0 AND LOWER(c.algorithm) = \'scrypt\''
-    rows_scrypt = db.executesql(query_scrypt, as_dict=True)
-    query_others = 'SELECT \'SHA-256d\' AS algorithm, IFNULL(SUM(ws1.hash_avg),0) hash_sum FROM currency c, miner m, worker w, worker_stats ws1, (SELECT worker_id, MAX(hash_count) hash_count FROM worker_stats WHERE timestamp >= DATE_ADD(\'2014-06-01 11:15:00\', INTERVAL -60 SECOND) /* NOW() */ GROUP BY worker_id) ws2 WHERE (w.time_stop IS NULL OR w.time_stop>NOW()) AND ws1.worker_id = w.id AND m.id = w.miner_id AND c.id = m.currency_id AND ws1.hash_count = ws2.hash_count AND ws1.worker_id = ws2.worker_id AND ws1.hash_avg != 0 AND LOWER(c.algorithm) = \'others\''
-    rows_others = db.executesql(query_others, as_dict=True)
-    list_def = []
-    for row in rows_SHA:
-        item_def = {}
-        item_def['algorithm'] = row['algorithm']
-        item_def['hashes'] = row['hash_sum']
-        list_def.append(item_def)
-    for row in rows_scrypt:
-        item_def = {}
-        item_def['algorithm'] = row['algorithm']
-        item_def['hashes'] = row['hash_sum']*1000
-        list_def.append(item_def)
-    for row in rows_others:
-        item_def = {}
-        item_def['algorithm'] = row['algorithm']
-        item_def['hashes'] = row['hash_sum']
-        list_def.append(item_def)
-    return dict(rows=list_def)
-
 def grouped_hashes_data():
     rows1 = db(db.currency).select(db.currency.name)
     i = 0

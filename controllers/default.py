@@ -11,15 +11,29 @@ now = datetime.strptime(datetime.now().strftime('%Y/%m/%d %H:%M:%S'), '%Y/%m/%d 
 
 @auth.requires_login()
 def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    response.flash = T("Welcome to web2py!")
-    return dict(message=T('Hello World'))
+    query_SHA = 'SELECT \'SHA-256d\' AS algorithm, IFNULL(SUM(ws1.hash_avg),0) hash_sum FROM currency c, miner m, worker w, worker_stats ws1, (SELECT worker_id, MAX(hash_count) hash_count FROM worker_stats WHERE timestamp >= DATE_ADD(\'2014-06-01 11:15:00\', INTERVAL -60 SECOND) /* NOW() */ GROUP BY worker_id) ws2 WHERE (w.time_stop IS NULL OR w.time_stop>NOW()) AND ws1.worker_id = w.id AND m.id = w.miner_id AND c.id = m.currency_id AND ws1.hash_count = ws2.hash_count AND ws1.worker_id = ws2.worker_id AND ws1.hash_avg != 0 AND LOWER(c.algorithm) = \'sha-256d\''
+    rows_SHA = db.executesql(query_SHA, as_dict=True)
+    query_scrypt = 'SELECT \'scrypt\' AS algorithm, IFNULL(SUM(ws1.hash_avg),0) hash_sum FROM currency c, miner m, worker w, worker_stats ws1, (SELECT worker_id, MAX(hash_count) hash_count FROM worker_stats WHERE timestamp >= DATE_ADD(\'2014-06-01 11:15:00\', INTERVAL -60 SECOND) /* NOW() */ GROUP BY worker_id) ws2 WHERE (w.time_stop IS NULL OR w.time_stop>NOW()) AND ws1.worker_id = w.id AND m.id = w.miner_id AND c.id = m.currency_id AND ws1.hash_count = ws2.hash_count AND ws1.worker_id = ws2.worker_id AND ws1.hash_avg != 0 AND LOWER(c.algorithm) = \'scrypt\''
+    rows_scrypt = db.executesql(query_scrypt, as_dict=True)
+    query_others = 'SELECT \'others\' AS algorithm, IFNULL(SUM(ws1.hash_avg),0) hash_sum FROM currency c, miner m, worker w, worker_stats ws1, (SELECT worker_id, MAX(hash_count) hash_count FROM worker_stats WHERE timestamp >= DATE_ADD(\'2014-06-01 11:15:00\', INTERVAL -60 SECOND) /* NOW() */ GROUP BY worker_id) ws2 WHERE (w.time_stop IS NULL OR w.time_stop>NOW()) AND ws1.worker_id = w.id AND m.id = w.miner_id AND c.id = m.currency_id AND ws1.hash_count = ws2.hash_count AND ws1.worker_id = ws2.worker_id AND ws1.hash_avg != 0 AND LOWER(c.algorithm) = \'others\''
+    rows_others = db.executesql(query_others, as_dict=True)
+    list_def = []
+    for row in rows_SHA:
+        item_def = {}
+        item_def['algorithm'] = row['algorithm']
+        item_def['hashes'] = round(row['hash_sum'],2)
+        list_def.append(item_def)
+    for row in rows_scrypt:
+        item_def = {}
+        item_def['algorithm'] = row['algorithm']
+        item_def['hashes'] = round(row['hash_sum']*1000,2)
+        list_def.append(item_def)
+    for row in rows_others:
+        item_def = {}
+        item_def['algorithm'] = row['algorithm']
+        item_def['hashes'] = round(row['hash_sum'],2)
+        list_def.append(item_def)
+    return dict(rows=list_def)
 
 def total_hashes():
     rows = db.executesql('SELECT c.name, SUM(ws1.hash_avg) hash_sum FROM currency c, miner m, worker w, worker_stats ws1,	(SELECT worker_id, MAX(hash_count) hash_count FROM worker_stats GROUP BY worker_id) ws2 WHERE (w.time_stop IS NULL OR w.time_stop>NOW()) AND ws1.worker_id = w.id AND m.id = w.miner_id AND c.id = m.currency_id AND ws1.hash_count = ws2.hash_count AND ws1.worker_id = ws2.worker_id AND ws1.hash_avg != 0 GROUP BY c.name', as_dict=True) #, colnames=[db.currency.name, db.worker_stats.hash_avg]
@@ -128,3 +142,5 @@ def donut():
     elem4['value'] = other
     tlist.append(elem4)
     return dict(rows = tlist)
+
+    

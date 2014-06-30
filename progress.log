@@ -1074,3 +1074,7 @@
 [2014-06-07 04:29:31] EDIT CloudMiner/views/default/index.html: 0
 [2014-06-07 04:30:06] EDIT CloudMiner/views/default/index.html: 0
 [2014-06-07 04:35:27] EDIT CloudMiner/views/machine_cp/index.html: 0
+[2014-06-30 20:29:22] EDIT CloudMiner/controllers/charts.py: 0
+[2014-06-30 20:51:55] EDIT CloudMiner/controllers/charts.py: 1
+[2014-06-30 20:53:00] EDIT CloudMiner/controllers/charts.py: 0
+[2014-06-30 20:54:10] EDIT CloudMiner/controllers/charts.py: 0

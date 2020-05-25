@@ -1,8 +1,7 @@
 # coding: utf8
 # intente algo como
-def index(): return dict(message="hello from machine_CP.py")
-
-def machine_cp():
+@auth.requires_login()
+def index(): #return dict(message="hello from machine_cp.py")
     if not request.args:
         query = db.machine
     else:
@@ -27,3 +26,40 @@ def machine_cp():
                                                    db.platform.on(db.machine.platform_id==db.platform.id),
                                                    db.miner.on(db.worker.miner_id==db.miner.id)],
                                              orderby=db.machine.name | ~db.machine.alive | ~db.worker.time_start))
+
+@auth.requires_login()
+def send_command():
+    #if request.args:
+    #    print ' '.join(request.args)
+    if not request.args or len(request.args)<2:
+        redirect(URL('error'))
+    command = request.args[0]
+    if (command=='start' or command=='stop' or command=='test') and len(request.args)<3:
+        redirect(URL('error'))
+    machine_id=request.args[1]
+    rows = db(db.machine.id==machine_id).select(db.machine.ip,
+                                                    db.machine.port)
+    row = rows[0]
+    #print row
+    ip = row.ip
+    port = int(row.port)
+    if command=='start':
+        miner_id=request.args[2]
+        task = 'start '+miner_id
+    elif command=='stop':
+        worker_id=request.args[2]
+        task = 'stop '+worker_id
+        pass
+    elif command=='test':
+        miner_id=request.args[2]
+        task = 'test '+miner_id
+        pass
+    elif command=='quit':
+        task = 'quit'
+        pass
+    else:
+        redirect(URL('error'))
+    send_task((ip,port),task)
+    sleep(2)
+    print 'send_task((',ip,',',port,'),\'',task,'\')'
+    redirect(URL('machine_dash_2'))
